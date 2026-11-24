@@ -110,7 +110,7 @@ const UpdateRoom = () => {
             
                 <div className="mb-3">
                   <label for="image1" className="form-label">
-                    Image1
+                    Room's Bed
                   </label>
                   {!image1File && image1 && <img src={image1} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
                   {image1File && <img src={URL.createObjectURL(image1File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
@@ -119,7 +119,7 @@ const UpdateRoom = () => {
                 </div>
                 <div className="mb-3">
                   <label for="image2" className="form-label">
-                    Image2
+                    Room's Bath
                   </label>
                   {!image2File && image2 && <img src={image2} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
                   {image2File && <img src={URL.createObjectURL(image2File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
@@ -128,7 +128,7 @@ const UpdateRoom = () => {
                 </div>
                 <div className="mb-3">
                   <label for="image3"  className="form-label">
-                    Image3
+                    Front View
                   </label>
                   {!image3File && image3 && <img src={image3} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
                   {image3File && <img src={URL.createObjectURL(image3File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}

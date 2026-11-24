@@ -8,6 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectRoomTypeById } from "../RoomType/roomTypeSlice";
 import { getAllRoom, getFilteredDate, setSelected } from "./roomSlice";
 
+// Descriptions come from the rich-text editor as HTML - show clean plain text in the card bullet
+const stripHtml = (html) =>
+  String(html ?? "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const ARoom = (props) => {
    
     const roomType = useSelector((state)=>selectRoomTypeById(state,Number(props.roomTypeId)))
@@ -145,7 +156,7 @@ const ARoom = (props) => {
                 <h5 className="pt-3 d-block me-5 text-hotel-primary">{props.roomTypeName}</h5>
                 <ul>
                   {/* <li>{Number(props.totalRoom)}</li> */}
-                  <li>{parse(String(props.roomTypeDescription ?? ''))}</li>
+                  <li>{stripHtml(props.roomTypeDescription)}</li>
                   <li>You can add extra bed.</li>
                   <li>2 Adult(s) Under 5 years stays free</li>
                   <li>Price : {props.roomTypePrice} MMK</li>

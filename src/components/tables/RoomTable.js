@@ -27,7 +27,7 @@ const RoomTable = () => {
             <th>Room Type</th>
             <th>Room's Bed</th>
             <th>Room's Bath</th>
-            <th>Room's Toilet</th>
+            <th>Front View</th>
             {/* <th>No of Rooms</th> */}
             <th>Description</th>
             <th>Actions</th>
