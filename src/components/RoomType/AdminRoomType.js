@@ -34,7 +34,7 @@ const AdminRoomType = (props) => {
       <td>{props.no}</td>
       <td>{props.name}</td>
       <td><img src={props.image} alt="roomtype image" className="w-100"/></td>
-      <td>{props.description}</td>
+      <td>{parse(String(props.description ?? ''))}</td>
       <td>{props.price}</td>
       <td>{parse(props.facilities)}</td>
       <td className="px-3">

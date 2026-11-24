@@ -145,7 +145,7 @@ const ARoom = (props) => {
                 <h5 className="pt-3 d-block me-5 text-hotel-primary">{props.roomTypeName}</h5>
                 <ul>
                   {/* <li>{Number(props.totalRoom)}</li> */}
-                  <li>{props.roomTypeDescription}</li>
+                  <li>{parse(String(props.roomTypeDescription ?? ''))}</li>
                   <li>You can add extra bed.</li>
                   <li>2 Adult(s) Under 5 years stays free</li>
                   <li>Price : {props.roomTypePrice} MMK</li>
