@@ -130,7 +130,7 @@ const AddRoom = () => {
               <div className="col-md-6">
             
               <label for="image3"  className="form-label">
-                  Front View
+                  Room's Toilet
                 </label>
                 <input type="file" className="form-control" accept="image/*" onChange={onImage3Change} required />
                 {image3File && <img src={URL.createObjectURL(image3File)} alt="preview" className="img-thumbnail mt-2" style={{ maxHeight: "100px" }} />}

@@ -128,7 +128,7 @@ const UpdateRoom = () => {
                 </div>
                 <div className="mb-3">
                   <label for="image3"  className="form-label">
-                    Front View
+                    Room's Toilet
                   </label>
                   {!image3File && image3 && <img src={image3} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
                   {image3File && <img src={URL.createObjectURL(image3File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
