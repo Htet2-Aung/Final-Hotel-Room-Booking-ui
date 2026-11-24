@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import ConfirmModal from "../ui/ConfirmModal";
 import classes from "./PaymentUser.module.css";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deletePayment } from "./paymentSlice";
 const UserPayment = (props) => {
   const card = `card ${classes.first}`
+  const dispatch = useDispatch();
   const [isDeleteModal, setDeleteModal] = useState(false);
   const [isPaymentModal, setPaymentModal] = useState(true);
 
   function deleteHandler() {
-    console.log("hello delete");
     setDeleteModal(true);
   }
   function closeHandler() {
     setDeleteModal(false);
   }
   function confirmHandler() {
-    // dispatch(deletePayment({ id: props.id })).unwrap();
+    dispatch(deletePayment({ id: props.id })).unwrap();
     setDeleteModal(false);
     setPaymentModal(false);
   }
@@ -37,16 +39,6 @@ const UserPayment = (props) => {
             </div>
             <div className="col-xl-2">
               <p className="float-end">{props.cardNo}
-              </p>
-            </div>
-            <hr/>
-          </div>
-          <div className="row">
-            <div className="col-xl-10">
-              <p>CVC</p>
-            </div>
-            <div className="col-xl-2">
-              <p className="float-end">{props.cvc}
               </p>
             </div>
             <hr/>
@@ -77,6 +69,9 @@ const UserPayment = (props) => {
               </Link>
               {isDeleteModal && 
                 <ConfirmModal
+                  title="Delete Payment"
+                  message="Are you sure you want to delete this payment record?"
+                  confirmText="Delete"
                   onCancel={closeHandler}
                   onConfirm={confirmHandler}
                 />}

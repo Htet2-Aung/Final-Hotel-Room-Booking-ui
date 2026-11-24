@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { selectRoomById, updateRoom } from './roomSlice';
 import { fetchRoomType, getAllRoomType } from '../RoomType/roomTypeSlice';
 import ReactQuill from 'react-quill';
+import { uploadImage } from '../../uploadImage';
 
 const UpdateRoom = () => {
 
@@ -17,14 +18,17 @@ const UpdateRoom = () => {
     const [image1, setImage1] = useState(room?.image1);
     const [image2, setImage2] = useState(room?.image2);
     const [image3, setImage3] = useState(room?.image3);
+    const [image1File, setImage1File] = useState(null);
+    const [image2File, setImage2File] = useState(null);
+    const [image3File, setImage3File] = useState(null);
     const [roomTypeId , setRoomTypeId] = useState(room?.roomType.id)
     const [addRequestStatus, setAddRequestStatus] = useState("idle");
   
     // const onDescriptionChange = (e) => setDescription(e.target.value);
   
-    const onImage1Change = (e) => setImage1(e.target.value);
-    const onImage2Change = (e) => setImage2(e.target.value);
-    const onImage3Change = (e) => setImage3(e.target.value);
+    const onImage1Change = (e) => setImage1File(e.target.files[0]);
+    const onImage2Change = (e) => setImage2File(e.target.files[0]);
+    const onImage3Change = (e) => setImage3File(e.target.files[0]);
     const onRoomTypeNameChange = (e) => setRoomTypeId(e.target.value)
     const canSave =
       [description, image1, image2, image3].every(Boolean) &&
@@ -42,22 +46,26 @@ const UpdateRoom = () => {
   
     console.log("Can save: " + canSave);
   
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
       event.preventDefault();
         if(canSave){
   
           try {
   
             setAddRequestStatus('pending')
+
+            const image1Url = image1File ? await uploadImage(image1File) : image1;
+            const image2Url = image2File ? await uploadImage(image2File) : image2;
+            const image3Url = image3File ? await uploadImage(image3File) : image3;
   
          dispatch(
           updateRoom({
             room: {
                 id,
               description,
-              image1,
-              image2,
-              image3
+              image1: image1Url,
+              image2: image2Url,
+              image3: image3Url
             },roomTypeId
           })
          ).unwrap()    
@@ -104,19 +112,28 @@ const UpdateRoom = () => {
                   <label for="image1" className="form-label">
                     Image1
                   </label>
-                  <input type="text" className="form-control" value={image1} onChange={onImage1Change}  placeholder="Image Url"/>
+                  {!image1File && image1 && <img src={image1} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
+                  {image1File && <img src={URL.createObjectURL(image1File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
+                  <input type="file" className="form-control" accept="image/*" onChange={onImage1Change} />
+                  <small className="text-muted">Leave empty to keep the current image.</small>
                 </div>
                 <div className="mb-3">
                   <label for="image2" className="form-label">
                     Image2
                   </label>
-                  <input type="text" className="form-control" value={image2} onChange={onImage2Change} placeholder="Image Url" />
+                  {!image2File && image2 && <img src={image2} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
+                  {image2File && <img src={URL.createObjectURL(image2File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
+                  <input type="file" className="form-control" accept="image/*" onChange={onImage2Change} />
+                  <small className="text-muted">Leave empty to keep the current image.</small>
                 </div>
                 <div className="mb-3">
                   <label for="image3"  className="form-label">
                     Image3
                   </label>
-                  <input type="text" className="form-control" value={image3} onChange={onImage3Change} placeholder="Image Url" />
+                  {!image3File && image3 && <img src={image3} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
+                  {image3File && <img src={URL.createObjectURL(image3File)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "80px" }} />}
+                  <input type="file" className="form-control" accept="image/*" onChange={onImage3Change} />
+                  <small className="text-muted">Leave empty to keep the current image.</small>
                 </div>
                 <div className="my-3">
                 <label for="Description" className="form-label">

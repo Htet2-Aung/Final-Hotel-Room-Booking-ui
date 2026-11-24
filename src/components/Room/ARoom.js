@@ -67,6 +67,8 @@ const ARoom = (props) => {
 
   const accId = `accordionFlushExample${props.id}`
   const accData = `#accordionFlushExample${props.id}`
+  const carouselId = `carouselFade${props.id}`
+  const carouselTarget = `#carouselFade${props.id}`
   const container = `container ${classes.modal}`
   // console.log("Total Room in A room: "+props.totalRoom)
 
@@ -102,25 +104,25 @@ const ARoom = (props) => {
   </button>
 </div> */}
 
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src={props.image1} class="d-block w-100" alt="..."/>
+<div id={carouselId} className="carousel slide carousel-fade" data-bs-ride="carousel">
+  <div className="carousel-inner">
+    <div className="carousel-item active">
+      <img src={props.image1} className="d-block w-100" alt="..."/>
     </div>
-    <div class="carousel-item">
-      <img src={props.image2} class="d-block w-100" alt="..."/>
+    <div className="carousel-item">
+      <img src={props.image2} className="d-block w-100" alt="..."/>
     </div>
-    <div class="carousel-item">
-      <img src={props.image3} class="d-block w-100" alt="..."/>
+    <div className="carousel-item">
+      <img src={props.image3} className="d-block w-100" alt="..."/>
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
+  <button className="carousel-control-prev" type="button" data-bs-target={carouselTarget} data-bs-slide="prev">
+    <span className={classes.navIcon} aria-hidden="true"><i className="fas fa-chevron-left"></i></span>
+    <span className="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
+  <button className="carousel-control-next" type="button" data-bs-target={carouselTarget} data-bs-slide="next">
+    <span className={classes.navIcon} aria-hidden="true"><i className="fas fa-chevron-right"></i></span>
+    <span className="visually-hidden">Next</span>
   </button>
 </div>
 
@@ -140,7 +142,7 @@ const ARoom = (props) => {
                 {isImageOpen && <BackDrop onDrop={closeHandler}/>}
               </div>
               <div className="col-sm-12 col-md-6">
-                <h5 className=" pt-3 d-block me-5" style={{color: "#29bfc2"}}>{props.roomTypeName}</h5>
+                <h5 className="pt-3 d-block me-5 text-hotel-primary">{props.roomTypeName}</h5>
                 <ul>
                   {/* <li>{Number(props.totalRoom)}</li> */}
                   <li>{props.roomTypeDescription}</li>
@@ -151,15 +153,18 @@ const ARoom = (props) => {
                   <Link  onClick={detailHandler}>
                   <small >More Detail</small>
                 </Link>
-                {isModalOpen && <Facilities 
+                {isModalOpen && roomType && <Facilities 
                 id = {roomType.id}
                 facilities = {roomType.facilities}
+                onClose = {closeHandler}
                 />}
                 {isModalOpen && <BackDrop onDrop={closeHandler}/>}
                   </li>
                 </ul>
                 
-                <button onClick={onSelected} className="btn">{(props.roomSelected) ? 'Selected' : 'Select'}</button>
+                <button onClick={onSelected} className={props.roomSelected ? `btn ${classes.selectedBtn}` : `btn ${classes.selectBtn}`}>
+                  {props.roomSelected ? (<span><i className="fas fa-check me-1"></i>Selected</span>) : "Select"}
+                </button>
               
               
            
@@ -195,7 +200,7 @@ const ARoom = (props) => {
             >
               <div className="accordion-body">
               <h6>Descriptions</h6>
-                <small>{parse(props.description)}</small>
+                <small>{parse(String(props.description ?? ''))}</small>
               </div>
             </div>
           </div>

@@ -128,11 +128,11 @@ const modal = `card ${classes.modal}`
                   image2 = {room.image2}
                   image3 = {room.image3}
                   totalRoom = {room.totalRoom}
-                  roomTypeId = {room.roomType.id}
-                  roomTypeName = {room.roomType.name}
-                  roomTypePrice = {room.roomType.price}
-                  roomTypeDescription = {room.roomType.description}
-                  roomTypeFacilities = {room.roomType.facilities}
+                  roomTypeId = {room.roomType?.id}
+                  roomTypeName = {room.roomType?.name ?? '-'}
+                  roomTypePrice = {room.roomType?.price ?? 0}
+                  roomTypeDescription = {room.roomType?.description ?? ''}
+                  roomTypeFacilities = {room.roomType?.facilities ?? ''}
                   roomSelected = {room.selected}
                   
               /> 

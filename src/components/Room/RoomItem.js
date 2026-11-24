@@ -1,9 +1,9 @@
 import React, {  useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteRoom } from './roomSlice'
-import { Link } from 'react-router-dom'
 import parse from "html-react-parser";
 import ConfirmModal from '../ui/ConfirmModal'
+import ActionIcon from '../ui/ActionIcon'
 
 const RoomItem = (props) => {
 
@@ -33,27 +33,32 @@ const RoomItem = (props) => {
         setModalOpen(true)
      }
 
-     console.log("Total room in room item :"+props.totalRoom)
+     const typeName = props.roomType?.name ?? 'No type'
+
   return (
     <tr>
     <td>{props.no}</td>
-    <td>{String(props.roomType.name)}</td>
-    <td><img src={props.image1} className="image fluid" width="100px" height="100px"/></td>
-    <td><img src={props.image2} className="image fluid" width="100px" height="100px"/></td>
-    <td><img src={props.image3} className="image fluid" width="100px" height="100px"/></td>
+    <td>{typeName}</td>
+    <td><img src={props.image1} className="image fluid" width="100px" height="100px" alt={`${typeName} room`}/></td>
+    <td><img src={props.image2} className="image fluid" width="100px" height="100px" alt={`${typeName} room`}/></td>
+    <td><img src={props.image3} className="image fluid" width="100px" height="100px" alt={`${typeName} room`}/></td>
     {/* <td>{Number(props.totalRoom)}</td> */}
-    <td>{parse(props.description)}</td>
+    <td>{parse(String(props.description ?? ''))}</td>
     <td>
-      <Link to={`/admin/roomTable/updateroom/${props.id}`}>
-     
-        <i className="far fa-edit fa-1x mx-4"  style={{color: "#29bfc2"}}></i>
-      </Link>
-      <Link onClick={deleteHandler}>
-     
-        <i className="far fa-trash-alt fa-1x text-danger"></i>
-      </Link>
+      <ActionIcon
+        type="edit"
+        to={`/admin/roomTable/updateroom/${props.id}`}
+        title="Edit room"
+      />
+      <ActionIcon type="delete" onClick={deleteHandler} title="Delete room" />
       {isModalOpen && (
-        <ConfirmModal onCancel={closeHandler} onConfirm={confirmHandler} />
+        <ConfirmModal
+          title="Delete Room"
+          message={`Are you sure you want to delete this ${typeName} room? This cannot be undone.`}
+          confirmText="Delete"
+          onCancel={closeHandler}
+          onConfirm={confirmHandler}
+        />
       )}
     </td>
   </tr>

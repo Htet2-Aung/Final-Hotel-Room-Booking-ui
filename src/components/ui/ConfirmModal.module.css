@@ -1,36 +1,103 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1080;
+}
+
+.modal {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    padding: 1.75rem 1.5rem 1.25rem;
+    width: 24rem;
+    max-width: 92vw;
+    text-align: center;
+    animation: pop-in 0.15s ease-out;
+}
+
+@keyframes pop-in {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.iconWrap {
+    font-size: 2.6rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.iconDanger {
+    color: #e74a3b;
+}
+
+.iconPrimary {
+    color: #29bfc2;
+}
+
+.title {
+    font-weight: 700;
+    color: #12326e;
+    margin-bottom: 0.35rem;
+}
+
+.message {
+    color: #5a5c69;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    white-space: pre-line;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
 .btn {
     font: inherit;
     padding: 0.5rem 1.5rem;
     cursor: pointer;
-    border-radius: 4px;
-    background-color: #29bfc2;
-    color: white;
-    border: 1px solid #29bfc2;
-    margin: 0 1rem;
-  }
-  .btn:hover {
-    background-color: #29bfc2;
-    border-color: #29bfc2;
-  }
-  
-  .btn--alt {
-    background-color: transparent;
-    color: #29bfc2;
-  }
-  
-  .btn--alt:hover {
-    background-color:white;
-  }
-  
-  .modal {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
-    background-color: white;
-    padding: 1rem;
-    text-align: center;
-    width: 30rem;
-    z-index: 10;
-    position: fixed;
-    top: 20vh;
-    left: calc(50% - 15rem);
-  }
+    background-color: #29bfc2;
+    color: #fff;
+    border: 1px solid #29bfc2;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+    background-color: #23a7aa;
+    border-color: #23a7aa;
+    color: #fff;
+}
+
+.btn--alt {
+    background-color: transparent;
+    color: #5a5c69;
+    border-color: #d1d3e2;
+}
+
+.btn--alt:hover {
+    background-color: #f8f9fc;
+    border-color: #d1d3e2;
+    color: #5a5c69;
+}
+
+.btn--danger {
+    background-color: #e74a3b;
+    border-color: #e74a3b;
+}
+
+.btn--danger:hover {
+    background-color: #c93021;
+    border-color: #c93021;
+}

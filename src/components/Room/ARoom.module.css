@@ -16,3 +16,47 @@
     left: calc(50% - 15rem);
   }
   .carousel-inner>.item { -webkit-transition: 0s !important; -o-transition: 0s !important; transition: 0s !important; }
+
+  .navIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .navIcon:hover {
+    background-color: rgba(0, 0, 0, 0.85);
+    transform: scale(1.1);
+  }
+
+  .selectBtn {
+    background: linear-gradient(135deg, #1a8081 0%, #2fd5d8 100%);
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1.6rem;
+    border: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+  .selectBtn:hover {
+    background: linear-gradient(135deg, #29bfc2 0%, #1a8081 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 128, 129, 0.45);
+  }
+  .selectedBtn {
+    background: linear-gradient(135deg, #1cc88a 0%, #0f9d58 100%);
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1.6rem;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(28, 200, 138, 0.4);
+  }

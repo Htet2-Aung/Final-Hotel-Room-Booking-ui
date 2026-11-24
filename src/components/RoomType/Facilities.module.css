@@ -1,13 +1,109 @@
 .modal {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    background-color: white;
-    padding: 1rem;
-    height: 30rem;
-    width: 20rem;
-    z-index: 10;
     position: fixed;
-    top: 10vh;
-    left: calc(50% - 15rem);
-    overflow-y: scroll;
-  }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32rem;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    z-index: 1050;
+    overflow: hidden;
+    animation: fadeInUp 0.25s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #1a8081 0%, #29bfc2 100%);
+    color: #ffffff;
+}
+
+.title {
+    margin: 0;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.35rem 0.55rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+.closeBtn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.body {
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+}
+
+.amenityList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1.5rem;
+}
+.amenityList li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.checkIcon {
+    color: #29bfc2;
+    margin-top: 0.2rem;
+}
+
+.footer {
+    padding: 0 1.5rem 1.25rem;
+    text-align: right;
+}
+
+.closeFooterBtn {
+    background: linear-gradient(135deg, #1a8081 0%, #29bfc2 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.45rem 1.6rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+.closeFooterBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 128, 129, 0.45);
+}
+
+@media (max-width: 576px) {
+    .amenityList {
+        grid-template-columns: 1fr;
+    }
+}

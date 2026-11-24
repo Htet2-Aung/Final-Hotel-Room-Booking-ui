@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# Relax Oasis - Hotel Room Booking (Frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React single-page app for the Relax Oasis hotel booking system.
 
-## Available Scripts
+**Backend repo (required, start it first):** https://github.com/Htet2-Aung/Final-Hotel-Room-Booking-Backend
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+- React 18, React Router 6, Redux Toolkit
+- Axios -> backend REST API at http://localhost:8181
+- Bootstrap 5 / SB Admin 2 theme, DataTables, Chart.js, React Quill, jsPDF
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to Run
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Start the backend API first (see its README) -> http://localhost:8181
+2. Install dependencies:
 
-### `npm test`
+       npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Start the dev server:
 
-### `npm run build`
+       npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Open http://localhost:3000
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Demo Accounts (auto-seeded by the backend on an empty database)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Role  | Email             | Password | What you can try |
+|-------|-------------------|----------|------------------|
+| Admin | `admin@gmail.com` | `5678`   | Dashboard, room & room type CRUD, user management, confirm bookings (auto-emails the guest), payments, activity log |
+| User  | `user@gmail.com`  | `1234`   | Browse/search rooms, book a room, pay with wallet, view/cancel your bookings |
 
-### `npm run eject`
+## Feature Overview
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Room browsing with search by date range and room type
+- Booking flow with wallet payment and automatic refund on cancel
+- Admin confirms a booking -> a confirmation email is sent to the guest automatically
+- Admin user management (view, delete with confirm dialog)
+- Activity log: automatic audit trail plus personal notes (add / edit / delete)
+- Shared UI components: ConfirmModal, ActionIcon, reusable admin tables

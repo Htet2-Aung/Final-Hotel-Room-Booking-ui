@@ -378,3 +378,54 @@ body{
     width: 100%;
   }
 
+
+/* ================= Hotel Booking Theme ================= */
+:root {
+  --hotel-primary: #1a8081;
+  --hotel-secondary: #29bfc2;
+  --hotel-accent: #2fd5d8;
+  --hotel-gradient: linear-gradient(135deg, #1a8081 0%, #2fd5d8 100%);
+  --hotel-gradient-hover: linear-gradient(135deg, #29bfc2 0%, #1a8081 100%);
+}
+
+/* Primary & secondary text colors (brand) used project-wide */
+.text-primary,
+.text-hotel-primary {
+  color: var(--hotel-primary) !important;
+}
+.text-hotel-secondary {
+  color: #ffffff !important;
+}
+
+/* Theme button - same look as the search bar button, used project-wide */
+.btn-theme,
+.btn-primary,
+.btn-success {
+  background: var(--hotel-gradient);
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+.btn-theme:hover,
+.btn-theme:focus,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus {
+  background: var(--hotel-gradient-hover);
+  border: none;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 128, 129, 0.45);
+}
+.btn-theme:disabled,
+.btn-primary:disabled,
+.btn-success:disabled {
+  background: #9adfe1;
+  border: none;
+  color: #fff;
+  transform: none;
+  box-shadow: none;
+}

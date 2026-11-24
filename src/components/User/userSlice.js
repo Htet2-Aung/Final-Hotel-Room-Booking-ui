@@ -46,9 +46,10 @@ export const updatePassword = createAsyncThunk(
   );
 
 export const deleteUser = createAsyncThunk('users/deleteUser', async(data)=> {
-   const {id} = data
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
 
-    const response = await axios.delete(`${DELETE_USER_URL}/${data.id}`)
+    const response = await axios.delete(`${DELETE_USER_URL}/${data.id}`, config)
     return response.data;
 })
 

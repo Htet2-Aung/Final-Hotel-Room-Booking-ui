@@ -2,6 +2,58 @@
     background-color: #29bfc2;
     color: white;
 }
+.arrowIcon {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease-in-out;
+}
+/* Bootstrap 5 removes .collapsed from the toggle when the menu is open */
+.collapseToggle:global(.collapsed) .arrowIcon {
+    transform: rotate(-90deg);
+}
+
+/* Keep the wide sidebar layout at every width. sb-admin-2 only applies its
+   desktop layout at >=768px; below that the theme switches to a narrow sidebar
+   whose submenus float over the page content. High-DPI displays (e.g. 200%
+   scaling) can push even a maximized window below 768 CSS px, so enforce the
+   desktop layout unconditionally. Selectors need higher specificity than the
+   sb-admin-2 theme rules. */
+.navbg:global(.sidebar) {
+    width: 14rem;
+}
+.navbg:global(.sidebar) :global(li.nav-item) :global(a.nav-link) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+}
+.navbg:global(.sidebar) :global(li.nav-item) :global(a.nav-link) i {
+    margin-right: 0.6rem;
+}
+.navbg:global(.sidebar) :global(li.nav-item) :global(a.nav-link) span {
+    display: inline;
+    font-size: 0.85rem;
+}
+.navbg:global(.sidebar) :global(li.nav-item) :global(a.nav-link) .arrowIcon {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+/* Expand submenus inline (accordion-style) inside the sidebar instead of the
+   theme's absolutely-positioned flyout that overlays the page content */
+.navbg:global(.sidebar) :global(li.nav-item) :global(.collapse),
+.navbg:global(.sidebar) :global(li.nav-item) :global(.collapsing) {
+    position: relative;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    margin: 0 1rem;
+    animation: none;
+}
+/* Keep Bootstrap's slide-open animation working (theme disables it below 768px) */
+.navbg:global(.sidebar) :global(li.nav-item) :global(.collapsing) {
+    display: block;
+    transition: height 0.15s ease;
+}
 .card{
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);

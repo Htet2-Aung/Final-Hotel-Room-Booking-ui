@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 
 //jQuery libraries
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
+import { initPrettyDataTable } from '../tables/prettyDataTable';
 import classes from "../tables/Chart.module.css"
 
 import { fetchAllPayments } from './paymentSlice';
@@ -26,22 +24,14 @@ const PaymentShow = () => {
   },[dispatch]
   )
 
-  $(document).ready(function () {
-    setTimeout(function(){
-    $('#example').DataTable();
-     } ,500);
-});
+  useLayoutEffect(() => initPrettyDataTable("#example", 500, { title: "Payment List", subtitle: "Payments received for guest bookings" }), []);
   
 const card = `card ${classes.card2}`
   return (
     <div className={card}>
-    <div className=" text-center">
-        <h3>Payment List</h3>
-    </div>
-     
-    <div className="container">
+    <div className="container-fluid px-0">
          
-    <table id="example" className="table table-hover table-striped table-bordered">
+    <table id="example" className="table table-hover table-striped table-bordered pretty-table">
 
         <thead>
           <tr>
@@ -49,8 +39,10 @@ const card = `card ${classes.card2}`
             <th>Holder Name</th>
             <th>Card Number</th>
             <th>Total</th>
-            <th>CVC</th>
             <th>Card Type</th>
+            <th>Txn ID</th>
+            <th>Slip</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>

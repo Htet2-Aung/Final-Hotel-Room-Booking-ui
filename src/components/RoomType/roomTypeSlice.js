@@ -14,21 +14,27 @@ export const fetchRoomType = createAsyncThunk('roomType/fetchRoomType',async() =
 
 export const addNewRoomType = createAsyncThunk('roomType/addRoomType', async(data)=>{
 
-    const response = await axios.post(ADD_ROOMTYPE,data.roomType)
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
+    const response = await axios.post(ADD_ROOMTYPE,data.roomType,config)
        
     return response.data;
 })
 
 export const updateRoomType = createAsyncThunk('roomType/updateRoomType', async(data) => {
     console.log("Update RoomType: "+data.roomType)
-    const response = await axios.post(UPDATE_ROOMTYPE,data.roomType)
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
+    const response = await axios.post(UPDATE_ROOMTYPE,data.roomType,config)
     return response.data;
 })
 
 export const deleteRoomType = createAsyncThunk('roomType/deleteRoomType', async(data) => {
     console.log("DELETE:"+data.id)
-   
-       await axios.delete(`${DELETE_ROOMTYPE}${data.id}`)
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
+
+       await axios.delete(`${DELETE_ROOMTYPE}${data.id}`, config)
     const response = await axios.get(GET_ALL_RoomType)
     return response.data
 })

@@ -14,13 +14,18 @@
   }
  
   .submit{
-    background-color: black;
-    color: light;
+    background: linear-gradient(135deg, #1a8081 0%, #2fd5d8 100%);
+    color: white;
     font-weight: bold;
+    border: none;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
   }
   .submit:hover{
-    background-color: white;
-    color: black;
+    background: linear-gradient(135deg, #29bfc2 0%, #1a8081 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 128, 129, 0.45);
   }
   .label{
 

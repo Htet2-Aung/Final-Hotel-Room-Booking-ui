@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 
 //jQuery libraries
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
+import { initPrettyDataTable } from '../tables/prettyDataTable';
 
 import { useDispatch } from 'react-redux';
 import Bookinglist from './BookingList';
@@ -21,24 +19,16 @@ const BookingShow = () => {
   },[dispatch]
   )
 
-  $(document).ready(function () {
-    setTimeout(function(){
-    $('#example').DataTable();
-     } ,500);
-});
+  useLayoutEffect(() => initPrettyDataTable("#example", 500, { title: "Booking List", subtitle: "All guest bookings — confirm, send email or delete" }), []);
 
 
 const card = `card ${classes.card2}`
   
   return (
     <div className={card}>
-    <div className=" text-center">
-        <h3>Booking List</h3>
-    </div>
-     
-    <div className="container">
+    <div className="container-fluid px-0">
          
-    <table id="example" className="table table-hover table-bordered">
+    <table id="example" className="table table-hover table-striped table-bordered pretty-table">
 
         <thead>
           <tr>
@@ -47,7 +37,7 @@ const card = `card ${classes.card2}`
             <th>checkIn</th>
             <th>checkOut</th>
             <th>Expired</th>
-            <th>Confirm & Email</th>
+            <th>Actions</th>
             <th>Details</th>
            
             {/* <th>TotalAdults</th>

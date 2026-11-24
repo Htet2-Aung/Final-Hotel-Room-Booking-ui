@@ -13,9 +13,6 @@ export const fetchAllPayments = createAsyncThunk('payment/fetchAllPayments',asyn
 
 
 export const register = createAsyncThunk('payment/register', async (data) => {
-    console.log(data.payment)
-    console.log(data.bookingId)
-    console.log(data.token)
     const response = await axios.post (`${REGISTER_URL}${data.bookingId}`,data.payment,{
         headers:{
             'Authorization':data.token
@@ -68,7 +65,6 @@ export const paymentSlice = createSlice({
         })
 
         .addCase(register.fulfilled,(state,action) => {
-            console.log(action.payload)
             state.payment =action.payload
         })
         .addCase(updatePayment.fulfilled, (state, action) => {

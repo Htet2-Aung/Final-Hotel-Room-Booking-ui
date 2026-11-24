@@ -1,23 +1,93 @@
 
 .card{
     position: relative;
-    height: 650px;
+    min-height: 650px;
     background-color: white; 
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   width: 600px;
  margin: auto;
  margin-top: 1%;
+ padding-bottom: 2rem;
 
 }
 
 
 .smallcard{
-    height: 165px;
+    min-height: 165px;
     margin-top: 3%;
     margin-left: 40px;
     width: 500px;
     
+}
+.methodTabs{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+.methodTab{
+    flex: 1;
+    border: 2px solid #d7dde8;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px 0;
+    font-weight: 600;
+    color: #5a5c69;
+    transition: all .15s ease;
+}
+.methodTab:hover{
+    border-color: #29bfc2;
+    color: #12326e;
+}
+.activeMethod,
+.activeMethod:hover{
+    border-color: #29bfc2;
+    background: #eafafb;
+    color: #12326e;
+}
+.walletGrid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+.walletOption{
+    border: 2px solid #d7dde8;
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #5a5c69;
+    transition: all .15s ease;
+}
+.walletOption:hover{
+    border-color: #29bfc2;
+}
+.selectedWallet,
+.selectedWallet:hover{
+    border-color: #29bfc2;
+    background: #eafafb;
+    color: #12326e;
+    box-shadow: 0 0 0 2px rgba(41, 191, 194, 0.25);
+}
+.walletLogo{
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #fff;
+}
+.payBtn{
+    min-width: 150px;
+    transition: opacity .15s ease;
+}
+.payBtn:disabled{
+    opacity: 0.55;
+    cursor: not-allowed;
 }
 .title{
 margin-top: 3%;

@@ -160,9 +160,9 @@ const Questions = () => {
             >
               <div className="accordion-body">
                 All special requests are subject to availability and cannot be
-                guaranteed by ShweBooking.com. We will forward your request to
-                your preferred property upon availability, and you can follow up
-                with the property before or upon arrival.
+                guaranteed in advance by Relax Oasis Hotel. Our team will do our
+                best to accommodate your request, and you can follow up with
+                the hotel directly before or upon arrival.
               </div>
             </div>
           </div>
@@ -185,22 +185,67 @@ const Questions = () => {
               data-bs-parent="#accordionFlushExample"
             >
               <div className="accordion-body">
-                You can extend additional stay depending on the availability of
-                rooms .Make your new booking and choose your new additional
-                dates. You also can contact our support team or property
-                directly . If you shorten the booking , any cancellation fees
-                are determined by the property and listed in your cancellation
-                policy. Please note that not all bookings will allow changes to
-                booking dates. You can extend additional stay depending on the
-                availability of rooms .Make your new booking and choose your new
-                additional dates. You also can contact our support team or
-                property directly . If you shorten the booking , any
-                cancellation fees are determined by the property and listed in
-                your cancellation policy. Please note that not all bookings will
-                allow changes to booking dates. You can extend additional stay
-                depending on the availability of rooms .Make your new booking
-                and choose your new additional dates. You also can contact our
-                support team or property directly .
+                You can extend your stay depending on the availability of
+                rooms. Make a new booking and choose your new additional dates,
+                or contact our support team or the hotel directly. If you
+                shorten the booking, any cancellation fees are determined by
+                the hotel and listed in your cancellation policy. Please note
+                that not all bookings will allow changes to booking dates.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseSixteen"
+                aria-expanded="false"
+                aria-controls="flush-collapseSixteen"
+              >
+                How do I book a room at Relax Oasis Hotel?
+              </button>
+            </h2>
+            <div
+              id="flush-collapseSixteen"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                Booking takes just four steps: search your check-in/check-out
+                dates and number of rooms, select your preferred rooms, fill
+                in the guest information, and complete the payment. You can go
+                back to a previous step at any time without losing your
+                selections. Once the payment is received, your booking is
+                confirmed and a confirmation email with your invoice number is
+                sent to you.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseSeventeen"
+                aria-expanded="false"
+                aria-controls="flush-collapseSeventeen"
+              >
+                Is there a charge for extra guests?
+              </button>
+            </h2>
+            <div
+              id="flush-collapseSeventeen"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div className="accordion-body">
+                Two adults per room are included in the room rate. Each
+                additional adult is charged 20,000 Kyats per night, and the
+                extra fee is automatically calculated and shown in your total
+                at the payment step. Children stay free of charge.
               </div>
             </div>
           </div>
@@ -286,8 +331,36 @@ const Questions = () => {
               data-bs-parent="#accordionFlushExample1"
             >
               <div className="accordion-body">
-                Room charges on our Shwebooking.com include applicable
+                Room charges at Relax Oasis Hotel include applicable
                 commercial taxes.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseEighteen"
+                aria-expanded="false"
+                aria-controls="flush-collapseEighteen"
+              >
+                What payment methods do you accept?
+              </button>
+            </h2>
+            <div
+              id="flush-collapseEighteen"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample1"
+            >
+              <div className="accordion-body">
+                We accept Visa Card, Master Card, Credit Card and MPU Card, as
+                well as CB Pay, Wave Pay, KBZ Pay and Onepay mobile wallets. The
+                full amount shown at the payment step (room charges plus any
+                extra guest fees) is charged securely, and a confirmation email
+                with your invoice number (e.g. RO-000123) is sent once the
+                payment is received.
               </div>
             </div>
           </div>
@@ -337,7 +410,7 @@ const Questions = () => {
                 aria-expanded="false"
                 aria-controls="flush-collapseTwelve"
               >
-                Can I make changes or cancel my booking due to COVID-19?
+                Can I make changes or cancel my booking?
               </button>
             </h2>
             <div
@@ -347,10 +420,10 @@ const Questions = () => {
             >
               <div className="accordion-body">
                 Any changes you wish to make to your booking are dependent on
-                the policies of your booking. Due to the ongoing impact of
-                COVID-19, certain destinations continue to impose and modify
-                restrictions on travel. Please check to see whether your
-                destination has any travel restrictions prior.
+                the policies of your booking. You can review your reservation
+                anytime from the Find/Print Your Booking page, or contact our
+                Customer Service team for assistance with changes or
+                cancellations.
               </div>
             </div>
           </div>

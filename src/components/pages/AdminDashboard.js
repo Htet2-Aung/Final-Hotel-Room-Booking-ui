@@ -99,7 +99,7 @@ const AdminDashboard = () => {
 
         <li className="nav-item">
           <a
-            className="nav-link collapsed"
+            className={`nav-link collapsed ${classes.collapseToggle}`}
             href="#collapsePages"
             data-bs-toggle="collapse"
             aria-expanded="true"
@@ -107,6 +107,7 @@ const AdminDashboard = () => {
           >
             <i className="fas fa-fw fa-folder"></i>
             <span>Forms</span>
+            <i className={`fas fa-angle-down ${classes.arrowIcon}`}></i>
           </a>
 
           <div
@@ -127,7 +128,7 @@ const AdminDashboard = () => {
         </li>
         <li className="nav-item">
           <a
-            className="nav-link collapsed"
+            className={`nav-link collapsed ${classes.collapseToggle}`}
             href="#collapseTable"
             data-bs-toggle="collapse"
             aria-expanded="true"
@@ -135,6 +136,7 @@ const AdminDashboard = () => {
           >
             <i className="fas fa-fw fa-table"></i>
             <span>Tables</span>
+            <i className={`fas fa-angle-down ${classes.arrowIcon}`}></i>
           </a>
 
           <div
@@ -146,21 +148,24 @@ const AdminDashboard = () => {
             <div className="bg-white py-2 collapse-inner rounded"  onClick={hideCard}>
               <h6 className="collapse-header">Custom Components:</h6>
               <Link className="collapse-item" to="/admin/userlist-table">
-                User Table
+                User List
               </Link>
              
               <Link className="collapse-item" to='/admin/bookingTable'>
-                Booking Table
+                Booking List
               </Link>
               <Link className="collapse-item" to="/admin/roomTable">
-                Room Table
+                Room List
               </Link>
               <Link className="collapse-item" to="/admin/roomTypeTable">
-                RoomType Table
+                RoomType List
               </Link>
              
               <Link className="collapse-item" to="/admin/paymentTable">
-                Payment Table
+                Payment List
+              </Link>
+              <Link className="collapse-item" to="/admin/activityLogTable">
+                Activity Log
               </Link>
              
             </div>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { deleteBookingRoom } from './bookingRoomSlice'
 import ConfirmModal from '../ui/ConfirmModal'
+import ActionIcon from '../ui/ActionIcon'
 
 const BookingRoomItem = (props) => {
 
@@ -21,23 +21,28 @@ const BookingRoomItem = (props) => {
         setModalOpen(true)
      }
 
+  const isActive = props.checkOut ? new Date(props.checkOut) >= new Date() : true
+
   return (
     <tr>
     <td>{props.no}</td>
     <td>{props.checkIn}</td>
     <td>{props.checkOut}</td>
-    <td>{props.status}</td>
     <td>
-      <Link to={`/roomTable/updateroom/${props.id}`}>
-        
-        <i className="far fa-edit fa-1x text-success mx-4"></i>
-      </Link>
-      <Link onClick={deleteHandler}>
-     
-        <i className="far fa-trash-alt fa-1x"></i>
-      </Link>
+      {isActive
+        ? <span className="badge bg-success">Active</span>
+        : <span className="badge bg-secondary">Completed</span>}
+    </td>
+    <td>
+      <ActionIcon type="delete" onClick={deleteHandler} title="Delete booking room" />
       {isModalOpen && (
-        <ConfirmModal onCancel={closeHandler} onConfirm={confirmHandler} />
+        <ConfirmModal
+          title="Delete Booking Room"
+          message="Are you sure you want to delete this booking room? This cannot be undone."
+          confirmText="Delete"
+          onCancel={closeHandler}
+          onConfirm={confirmHandler}
+        />
       )}
     </td>
   </tr>

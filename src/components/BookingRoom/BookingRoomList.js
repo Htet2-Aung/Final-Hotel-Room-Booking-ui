@@ -30,7 +30,6 @@ const BookingRoomList = () => {
                     id = {bkRoom.id}
                     checkIn = {bkRoom.checkIn}
                     checkOut = {bkRoom.checkOut}
-                    status = {bkRoom.status}
                 />
             )
         )

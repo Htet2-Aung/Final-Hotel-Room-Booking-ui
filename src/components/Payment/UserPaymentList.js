@@ -34,7 +34,6 @@ const UserPaymentList = () => {
           holderName={payment.holderName}
           cardNo={payment.cardNo}
           total={payment.total}
-          cvc={payment.cvc}
           cardType={payment.cardType}
           booking = {payment.booking}
         />

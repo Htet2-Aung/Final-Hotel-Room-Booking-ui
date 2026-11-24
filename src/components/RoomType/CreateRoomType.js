@@ -5,35 +5,38 @@ import "react-quill/dist/quill.snow.css"; // Import React-Quill's styles
 import { useDispatch } from "react-redux";
 import { addNewRoomType } from "./roomTypeSlice";
 import { useNavigate } from "react-router-dom";
+import { uploadImage } from "../../uploadImage";
 
 const CreateRoomType = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [facilities, setFacilities] = useState("");
-  const [image, setImage] = useState("")
+  const [imageFile, setImageFile] = useState(null);
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   const onNameChange = (e) => setName(e.target.value);
   const onDescriptionChange = (e) => setDescription(e.target.value);
   const onPriceChange = (e) => setPrice(e.target.value);
-  const onImageChange = (e) => setImage(e.target.value)
+  const onImageChange = (e) => setImageFile(e.target.files[0]);
   // const onFacilitiesChange = e => setFacilities(e.target.value)
 
   const canSave =
-    [name, description, price, facilities].every(Boolean) &&
+    [name, description, price, facilities, imageFile].every(Boolean) &&
     addRequestStatus === "idle";
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     if (canSave) {
       try {
         console.log("If can save");
         setAddRequestStatus("pending");
+
+        const image = imageFile ? await uploadImage(imageFile) : "";
 
         dispatch(
           addNewRoomType({
@@ -56,6 +59,7 @@ const CreateRoomType = () => {
       setDescription("");
       setPrice("");
       setFacilities("");
+      setImageFile(null);
       navigate("/admin/roomtypeTable");
     }
 
@@ -105,13 +109,21 @@ const CreateRoomType = () => {
                     Room Type' Image
                   </label>
                   <input
-                    type="text"
+                    type="file"
                     className="form-control"
-                    id="roomType"
-                    value={image}
+                    id="roomTypeImage"
+                    accept="image/*"
                     onChange={onImageChange}
                     required
                   />
+                  {imageFile && (
+                    <img
+                      src={URL.createObjectURL(imageFile)}
+                      alt="preview"
+                      className="img-thumbnail mt-2"
+                      style={{ maxHeight: "150px" }}
+                    />
+                  )}
                   </div>
                
               </div>

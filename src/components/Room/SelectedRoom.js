@@ -31,8 +31,8 @@ const SelectedRoom = () => {
     <SelectedRoomItem 
     id = {room.id}
     image1 = {room.image1}
-    roomType = {room.roomType.name}
-    price = {room.roomType.price}
+    roomType = {room.roomType?.name ?? '-'}
+    price = {room.roomType?.price ?? 0}
     />
     ))}
     </>
@@ -43,11 +43,13 @@ const SelectedRoom = () => {
     <div className="card px-3">
     <form>
       {content}
+      {selectedRooms.length > 0 && (
       <div className="row text-center">
         <Link to="/form">
-        <button className="btn mb-2 text-light" style={{backgroundColor: "#29bfc2"}}>Proceed To Guest Info</button>
+        <button className="btn btn-theme mb-2 text-light">Proceed To Guest Info <i className="fas fa-arrow-right ms-1"></i></button>
         </Link>
       </div>
+      )}
       </form>
     </div>
     

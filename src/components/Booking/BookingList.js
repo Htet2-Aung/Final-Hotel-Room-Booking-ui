@@ -45,7 +45,9 @@ const Bookinglist = (props) => {
         specialRequest={booking.specialRequest}
         createdAt={booking.createdAt}
         statuss = {booking.statuss}
-        invoiceNo = {booking.payment.invoiceNo}
+        username = {booking.username}
+        numOfRoom = {booking.numOfRoom}
+        invoiceNo = {booking.payment ? booking.payment.invoiceNo : `BK-${booking.id}`}
       />
      
     ));

@@ -1,8 +1,9 @@
 import classes from "./Payment.module.css";
+import BookingSteps from "../pages/BookingSteps";
 import Card from "../ui/Card";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBooking, getAllBookings } from "../Booking/bookingSlice";
+import { fetchBooking, getAllBookings, getSelectedBooking } from "../Booking/bookingSlice";
 import { useEffect } from "react";
 import { findRoomByselected, getFilteredDate } from "../Room/roomSlice";
 import SelectedRoomItemForBooking from "../Room/SelectedRoomItemForBooking";
@@ -43,6 +44,7 @@ const Payment = () => {
 
   //for booking
   const booking = useSelector(getAllBookings)
+  const savedInfo = useSelector(getSelectedBooking);
   let finalbook;
 
   if(booking.length === 0){
@@ -54,7 +56,11 @@ const Payment = () => {
    console.log("Final book"+finalbook.id)
 
    let roomperAdult = count * 2;
-   const adult = Number(finalbook.totalAdults)
+   // Use the guest counts the user actually entered (saved in Redux on form submit).
+   // finalbook comes from the server booking list, which can be stale or misordered
+   // when this page mounts (the create request may still be in flight).
+   const adult = Number(savedInfo.totalAdults) || Number(finalbook.totalAdults) || 0;
+   const child = Number(savedInfo.totalChildren) || Number(finalbook.totalChildren) || 0;
    let priceforAdult = 0;
   if(roomperAdult < adult){
     priceforAdult = (adult - roomperAdult) * 20000
@@ -95,8 +101,8 @@ const Payment = () => {
   let price=0;
  
   
-  selectedRooms.map((room) => 
-      price += room.roomType.price
+  selectedRooms.map((room) =>
+      price += room.roomType?.price ?? 0
   )
   
   console.log("price for room :"+price)
@@ -104,6 +110,10 @@ const Payment = () => {
   let subtotal = Number(price) * nights
 
   let total = subtotal + priceforAdult;
+
+  if (count === 0) {
+    return <Navigate to="/" replace />;
+  }
   console.log("Total in payment component: "+total)
   console.log("price in payment component: "+price)
 
@@ -113,6 +123,7 @@ const Payment = () => {
       <div className="container">
         
 
+        <BookingSteps current={3} />
         <div className={classes.position}>
         <form onSubmit={onSubmit}>
           <div className="row">
@@ -156,7 +167,7 @@ const Payment = () => {
                     <label className="text-muted medium">Number Of Guest</label>
                   </div>
                   <div className="col-7 ">
-                    <label>{finalbook.totalAdults + finalbook.totalChildren}</label>
+                    <label>{adult + child}</label>
                   </div>
                 </div>
               </div>
@@ -167,7 +178,7 @@ const Payment = () => {
                     <label className="text-muted medium">Name</label>
                   </div>
                   <div className="col-7 ">
-                    <label>{finalbook.guestName}</label>
+                    <label>{savedInfo.guestName || finalbook.guestName}</label>
                   </div>
                 </div>
 
@@ -176,7 +187,7 @@ const Payment = () => {
                     <label className="text-muted medium">Phone Number</label>
                   </div>
                   <div className="col-7 ">
-                    <label>{finalbook.phone}</label>
+                    <label>{savedInfo.phone || finalbook.phone}</label>
                   </div>
                 </div>
                 <div className="row mt-3">
@@ -196,8 +207,8 @@ const Payment = () => {
                 <SelectedRoomItemForBooking
                     id = {room.id}
     image1 = {room.image1}
-    roomType = {room.roomType.name}
-    price = {room.roomType.price}
+    roomType = {room.roomType?.name ?? '-'}
+    price = {room.roomType?.price ?? 0}
                 />
                 ))}
                 </div>
@@ -239,6 +250,11 @@ const Payment = () => {
                         <div className="row ">
                           <div className="col-7">
                             <div>Extra Fees</div>
+                            {priceforAdult > 0 && (
+                              <small className="text-muted">
+                                {adult - roomperAdult} extra adult(s) × 20,000 × {nights} night(s)
+                              </small>
+                            )}
                           </div>
                           <div className="col-5">
                             <label>{priceforAdult}</label>
@@ -255,7 +271,8 @@ const Payment = () => {
                         </div>
                       </div>
                       <div className="text-center my-2">
-                     <button type="submit" className="btn text-light mb-2" style={{backgroundColor: "#29bfc2"}} > Purchase</button>
+                     <button type="button" className="btn btn-outline-secondary mb-2 me-2" onClick={() => navigate("/form")}><i className="fas fa-arrow-left me-1"></i>Back</button>
+                      <button type="submit" className="btn btn-theme text-light mb-2">Purchase</button>
                      </div>
                     </div>
                   </div>

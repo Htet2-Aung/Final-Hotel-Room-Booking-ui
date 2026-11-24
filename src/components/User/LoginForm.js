@@ -20,6 +20,7 @@ const LoginForm = (props) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loginRequestStatus, setLoginRequestStatus] = useState("idle");
   const [message, setMessage] = useState("");
 
@@ -115,12 +116,19 @@ const LoginForm = (props) => {
               <label for="exampleInputPassword1" className="form-label" style={{color: "#29bfc2"}}>
                 Password
               </label>
-              <input
-                type="password"
-                className="form-control"
-                id="exampleInputPassword1"
-                onChange={onPasswordChange}
-              />
+              <div className="position-relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control"
+                  id="exampleInputPassword1"
+                  onChange={onPasswordChange}
+                />
+                <i
+                  className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"} position-absolute`}
+                  style={{ right: "12px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#858796" }}
+                  onClick={() => setShowPassword(!showPassword)}
+                ></i>
+              </div>
             </div>
             <div className="row my-3 px-3">
               <button

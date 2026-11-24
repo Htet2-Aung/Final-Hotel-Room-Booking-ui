@@ -7,6 +7,7 @@ import bookingReducer from "../components/Booking/bookingSlice"
 import paymentReducer from "../components/Payment/paymentSlice"
 import bookingRoomsReducer from "../components/BookingRoom/bookingRoomSlice"
 import emailReducer from "../components/Email/emailSlice"
+import activityLogReducer from "../components/ActivityLog/activityLogSlice"
 
 export const store = configureStore({
     reducer:{
@@ -18,5 +19,6 @@ export const store = configureStore({
         bookingRooms: bookingRoomsReducer,
         payments : paymentReducer,
         emails : emailReducer,
+        activityLogs : activityLogReducer,
     }
 })

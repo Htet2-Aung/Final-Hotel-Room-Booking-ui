@@ -1,0 +1,90 @@
+/* Pagination footer — same look as the DataTables pagination in
+   components/tables/prettyTables.css (pill buttons, gradient current page) */
+
+.pg-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.pg-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* "Show [10] entries" selector (matches .dataTables_length) */
+.pg-length {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: #858796;
+  font-size: 0.85rem;
+}
+
+.pg-length select {
+  border: 1px solid #d1d3e2;
+  border-radius: 2rem;
+  padding: 0.3rem 0.75rem;
+  color: #6e707e;
+  background-color: #f8f9fc;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.pg-length select:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.15);
+}
+
+/* "Showing x to y of z entries" (matches .dataTables_info) */
+.pg-info {
+  color: #858796;
+  font-size: 0.8rem;
+}
+
+/* pager buttons (matches .dataTables_paginate .paginate_button) */
+.pg-paginate .paginate_button {
+  border: none !important;
+  background: transparent !important;
+  color: #4e73df !important;
+  border-radius: 2rem;
+  padding: 0.35rem 0.8rem;
+  margin-left: 0.25rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.pg-paginate .paginate_button:hover {
+  background: #eaecf4 !important;
+  color: #224abe !important;
+}
+
+.pg-paginate .paginate_button.current,
+.pg-paginate .paginate_button.current:hover {
+  background: linear-gradient(180deg, #4e73df 0%, #2e59d9 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 6px rgba(46, 89, 217, 0.35);
+  cursor: default;
+}
+
+.pg-paginate .paginate_button.disabled,
+.pg-paginate .paginate_button.disabled:hover {
+  color: #b7b9cc !important;
+  background: transparent !important;
+  cursor: default;
+}
+
+.pg-paginate .paginate_ellipsis {
+  color: #858796;
+  padding: 0.35rem 0.25rem;
+  font-size: 0.85rem;
+}

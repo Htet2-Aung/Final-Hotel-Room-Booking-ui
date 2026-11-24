@@ -4,10 +4,11 @@ import BookingDetails from "../tables/BookingDetails";
 import BackDrop from "../pages/BackDrop";
 import EmailForm from "../Email/EmailForm";
 import { useDispatch, useSelector } from "react-redux";
-import { getSendEmail, setEmail } from "../Email/emailSlice";
-import { updateBooking } from "./bookingSlice";
+import { getSendEmail, setEmail, sendEmail1 } from "../Email/emailSlice";
+import { updateBooking, deleteBooking } from "./bookingSlice";
 import { getToken } from "../../features/auth/authSlice";
-import ConfirmBooking from "../ui/ConfirmBooking";
+import ConfirmModal from "../ui/ConfirmModal";
+import ActionIcon from "../ui/ActionIcon";
 
 const AdminBooking = (props) => {
 
@@ -78,8 +79,26 @@ const AdminBooking = (props) => {
 
     console.log("FunDisabled:"+funDisabled())
 
+    const buildConfirmEmailText = () =>
+`Dear ${props.guestName},
+
+Thank you for choosing Relax Oasis Hotel. Your booking has been confirmed.
+
+Booking Reference : BK-${props.id}
+Check-in Date     : ${props.checkIn}
+Check-out Date    : ${props.checkOut}
+Number of Rooms   : ${props.numOfRoom}
+Guests            : ${props.totalAdults} adult(s), ${props.totalChildren} child(ren)
+
+Please present this email or your booking reference at the front desk when you arrive.
+If you have any questions about your stay, just reply to this email.
+
+Warm regards,
+Relax Oasis Hotel
+relax.oasis.myanmar@gmail.com`;
+
     const confirmHandler = (e) => {
-    
+
       dispatch(
         updateBooking({
           booking: {
@@ -94,10 +113,32 @@ const AdminBooking = (props) => {
             checkIn:props.checkIn,
             checkOut:props.checkOut,
             numOfRoom:props.numOfRoom,
-            
+
       },token,bookingId
         })
-      ).unwrap();
+      )
+        .unwrap()
+        .then(() => {
+          // booking confirmed -> automatically send confirmation email to the guest
+          // (skip when the booking has no guest email on file)
+          if (!props.username) {
+            return;
+          }
+          dispatch(
+            sendEmail1({
+              email: {
+                to: props.username,
+                subject: `Booking Confirmed - Relax Oasis Hotel (Ref BK-${props.id})`,
+                text: buildConfirmEmailText(),
+              },
+              token,
+            })
+          ).unwrap();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("Booking confirmation failed (" + (error.message || error) + "). Please make sure the backend is running and try again. No confirmation email was sent.");
+        });
       setConfirm(false)
     }
 
@@ -105,6 +146,27 @@ const AdminBooking = (props) => {
 
     function cancelHandler(){
       setConfirm(false)
+    }
+
+    // --- admin delete (cancel) booking ---
+    const [isDeleteOpen, setDeleteOpen] = useState(false)
+
+    function openDeleteHandler(){
+      setDeleteOpen(true)
+    }
+
+    function cancelDeleteHandler(){
+      setDeleteOpen(false)
+    }
+
+    function deleteHandler(){
+      dispatch(deleteBooking({ id: props.id, token }))
+        .unwrap()
+        .catch((error) => {
+          console.log(error);
+          alert("Booking delete failed (" + (error.message || error) + "). Please make sure the backend is running and try again.");
+        });
+      setDeleteOpen(false)
     }
 
     // function confirmHandler(){
@@ -125,22 +187,43 @@ const AdminBooking = (props) => {
       <td>{props.checkOut}</td>
       <td>{getStatus()}</td>
       <td>
-      <button className="btn btn-success w-30 mx-3"  disabled={funDisabled()} >
-      <i className='fas fa-check-square'onClick={clickHandler}></i>
-      </button>
+      <ActionIcon
+        type="confirm"
+        onClick={clickHandler}
+        disabled={funDisabled()}
+        title={funDisabled() ? "Already confirmed" : "Confirm booking"}
+      />
      
       {/* <button className="btn btn-success" ></button> */}
-     {isConfirm && <ConfirmBooking onCancel={cancelHandler} onConfirm={confirmHandler}/>}
-     {isConfirm && <BackDrop onDrop={cancelHandler}/>}
-     <button className="btn btn-danger w-30">
-     <i className='fas fa-envelope'  onClick={sendEmailHandler}></i>
+     {isConfirm && (
+       <ConfirmModal
+         title="Confirm Booking"
+         message={props.username
+            ? `Mark booking ${props.invoiceNo} as confirmed? A confirmation email will be sent to ${props.username} automatically.`
+            : `Mark booking ${props.invoiceNo} as confirmed? Note: this booking has no guest email on file, so no confirmation email will be sent.`}
+         confirmText="Confirm"
+         variant="primary"
+         onCancel={cancelHandler}
+         onConfirm={confirmHandler}
+       />
+     )}
+     <ActionIcon type="email" onClick={sendEmailHandler} title="Send custom email" />
+      <ActionIcon type="delete" onClick={openDeleteHandler} title="Delete booking" />
+      {isDeleteOpen && (
+        <ConfirmModal
+          title="Delete Booking"
+          message={`Permanently delete booking ${props.invoiceNo} for ${props.guestName}? Its room links and payment record will also be removed. This cannot be undone.`}
+          confirmText="Delete"
+          onCancel={cancelDeleteHandler}
+          onConfirm={deleteHandler}
+        />
+      )}
    
    {isEmail && <EmailForm
            id = {props.id}
           
            />}
            {isEmail && <BackDrop onDrop={closeHandler}/>}
-     </button>
       
       </td>
       <td>

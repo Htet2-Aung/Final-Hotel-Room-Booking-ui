@@ -1,28 +1,30 @@
-import {useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import classes from "./BookingForm.module.css";
+import BookingSteps from "../pages/BookingSteps";
 
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addBooking, addNewBooking } from "./bookingSlice";
+import { addBooking, addNewBooking, getSelectedBooking } from "./bookingSlice";
 import { findRoomByselected, getFilteredDate } from "../Room/roomSlice";
 import SelectedRoomItemForBooking from "../Room/SelectedRoomItemForBooking";
 import { getEmail, getToken } from "../../features/auth/authSlice";
 
 const BookingForm = () => {
-  const button = `mt-5 mb-3 btn text-light ${classes.button}`;
+  const button = `mt-5 mb-3 btn btn-theme text-light ${classes.button}`;
   const selectedRooms = useSelector(findRoomByselected);
   const filteredDate = useSelector(getFilteredDate);
+  const savedInfo = useSelector(getSelectedBooking);
 
   
   
-  const [guestName, setGuestName] = useState('')
-  const [nrc, setNRC] = useState('')
-  const [phone, setPhone] = useState('')
-  const [countryOfOrigin, setCountryOfOrigin] = useState('')
-  const [totalAdults, setTotalAdults] = useState('')
-  const [totalChildren, setTotalChildren] = useState('')
-  const [specialRequest, setSpecialRequest] = useState('')
+  const [guestName, setGuestName] = useState(savedInfo.guestName || '')
+  const [nrc, setNRC] = useState(savedInfo.nrc || '')
+  const [phone, setPhone] = useState(savedInfo.phone || '')
+  const [countryOfOrigin, setCountryOfOrigin] = useState(savedInfo.countryOfOrigin || '')
+  const [totalAdults, setTotalAdults] = useState(savedInfo.totalAdults || '')
+  const [totalChildren, setTotalChildren] = useState(savedInfo.totalChildren || '')
+  const [specialRequest, setSpecialRequest] = useState(savedInfo.specialRequest || '')
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   const onGuestNameChange = (e) => setGuestName(e.target.value);
@@ -46,6 +48,21 @@ const BookingForm = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const onBackToRooms = () => {
+    dispatch(
+      addBooking({
+        guestName,
+        nrc,
+        phone,
+        countryOfOrigin,
+        totalAdults,
+        totalChildren,
+        specialRequest,
+      })
+    );
+    navigate("/");
+  };
 
   //for user
   const token = useSelector(getToken)
@@ -124,15 +141,20 @@ const BookingForm = () => {
 
    
 
+  if (count === 0) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <section>
       <div className="container">
+        <BookingSteps current={2} />
         <div className=" row mt-3">
           <div className="col-7">
             <form onSubmit={onSubmit}>
               <div className="form-group">
                 <label className="d-flex flex-row justify-content-between">
-                  <div className="mb-2" style={{color: "#29bfc2"}}>
+                  <div className="mb-2 text-hotel-primary">
                     Primary Guest Name
                     <sup className="ml-1 text-danger">*</sup>
                   </div>
@@ -141,7 +163,7 @@ const BookingForm = () => {
               </div>
               <div className="form-group mt-3">
                 <label className="d-flex flex-row justify-content-between" >
-                  <div className="mb-2" style={{color: "#29bfc2"}}>
+                  <div className="mb-2 text-hotel-primary">
                     Phone Number
                     <sup className="ml-1 text-danger">*</sup>
                   </div>
@@ -161,14 +183,14 @@ const BookingForm = () => {
               </div>
               <div className="form-group mt-3">
                 <label className="d-flex flex-row justify-content-between">
-                  <div className="mb-2" style={{color: "#29bfc2"}}>NRC</div>
+                  <div className="mb-2 text-hotel-primary">NRC</div>
                   
                 </label>
                 <input type="text" className="form-control" value={nrc} onChange={onNrcChange}></input>
               </div>
               <div className="form-group mt-3">
                 <label className="d-flex flex-row justify-content-between">
-                  <div className="mb-2" style={{color: "#29bfc2"}}>
+                  <div className="mb-2 text-hotel-primary">
                     Region
                     <sup className="ml-1 text-danger">*</sup>
                   </div>
@@ -196,7 +218,7 @@ const BookingForm = () => {
                 <div className="col">
                   <div className="form-group mt-3">
                     <label className="d-flex flex-row justify-content-between">
-                      <div className="mb-2" style={{color: "#29bfc2"}}>Total Adults</div>
+                      <div className="mb-2 text-hotel-primary">Total Adults</div>
                      
                     </label>
                     <small className="text-warning">20000 Kyats per additional adult per night</small>
@@ -206,7 +228,7 @@ const BookingForm = () => {
                 <div className="col">
                   <div className="form-group mt-3">
                     <label className="d-flex flex-row justify-content-between">
-                      <div className="mb-2" style={{color: "#29bfc2"}}>Total Children</div>
+                      <div className="mb-2 text-hotel-primary">Total Children</div>
                     </label>
                     <small className="text-warning">Under 5 years stays free</small>
                     <input name="" type="text" className="form-control" placeholder="3 children per room" value={totalChildren} onChange={onTotalChildren}></input>
@@ -215,7 +237,7 @@ const BookingForm = () => {
               </div>
               <div className="form-group mt-3">
                 <label className="d-flex flex-row justify-content-between">
-                  <div className="mb-2" style={{color: "#29bfc2"}}>Special Request</div>
+                  <div className="mb-2 text-hotel-primary">Special Request</div>
                   <div>
                     <small className="ml-auto text-muted">optional</small>
                   </div>
@@ -231,7 +253,10 @@ const BookingForm = () => {
            
               <div className="row mt-3">
                
-                  <button type="submit" className={button} style={{backgroundColor: "#29bfc2"}} disabled={!isSubmitDisabled}>
+                  <button type="button" className="mt-5 mb-3 btn btn-outline-secondary" onClick={onBackToRooms}>
+                    <i className="fas fa-arrow-left me-2"></i>Back to Room Selection
+                  </button>
+                  <button type="submit" className={button} disabled={!isSubmitDisabled}>
                    Submit
                   </button>
                
@@ -287,8 +312,8 @@ const BookingForm = () => {
                 <SelectedRoomItemForBooking
                     id = {room.id}
     image1 = {room.image1}
-    roomType = {room.roomType.name}
-    price = {room.roomType.price}
+    roomType = {room.roomType?.name ?? '-'}
+    price = {room.roomType?.price ?? 0}
                 />
                 ))}
                 </div>

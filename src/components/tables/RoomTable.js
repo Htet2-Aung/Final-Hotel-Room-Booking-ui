@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import RoomList from '../Room/RoomList'
 import { useDispatch } from 'react-redux'
 import { fetchAllRoom } from '../Room/roomSlice'
-import $ from "jquery"
+import { initPrettyDataTable } from './prettyDataTable'
 import classes from './Chart.module.css'
 
 const RoomTable = () => {
@@ -13,22 +13,14 @@ const RoomTable = () => {
         dispatch(fetchAllRoom())
     },[dispatch])
 
-    $(document).ready(function(){
-        setTimeout(function(){
-            $('#example').DataTable()
-        },500)
-    })
+    useLayoutEffect(() => initPrettyDataTable("#example", 500, { title: "Room List", subtitle: "Rooms with photos, room type and details" }), [])
 
     const card = `card ${classes.card2}`
   return (
     <div className={card}>
-    <div className=" text-center">
-        <h3>Room List</h3>
-    </div>
-     
-    <div className="container">
+    <div className="container-fluid px-0">
          
-        <table id="example" className="table table-hover table-bordered">
+        <table id="example" className="table table-hover table-striped table-bordered pretty-table">
         <thead>
           <tr>
             <th>No</th>

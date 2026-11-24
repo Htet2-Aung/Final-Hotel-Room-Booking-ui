@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { selectRoomTypeById, updateRoomType } from './roomTypeSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactQuill from 'react-quill'
+import { uploadImage } from '../../uploadImage'
 
 const UpdateRoomType = () => {
 
@@ -16,6 +17,8 @@ const UpdateRoomType = () => {
     const [description,setDescription] = useState(roomType?.description)
     const [price,setPrice] = useState(roomType?.price)
     const [facilities, setFacilities] = useState(roomType?.facilities)
+    const [image, setImage] = useState(roomType?.image)
+    const [imageFile, setImageFile] = useState(null)
     const [addRequestStatus, setAddRequestStatus] = useState('idle')
 
     const onNameChange = (e) => setName(e.target.value);
@@ -28,13 +31,15 @@ const UpdateRoomType = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const onSubmit = (event) =>{
+    const onSubmit = async (event) =>{
         event.preventDefault()
 
         if(cansave){
             try {
                 console.log("If can save");
                 setAddRequestStatus("pending");
+
+                const imageUrl = imageFile ? await uploadImage(imageFile) : image;
         
                 dispatch(
                   updateRoomType({
@@ -44,6 +49,7 @@ const UpdateRoomType = () => {
                       description,
                       price,
                       facilities,
+                      image: imageUrl,
                     },
                   })
                 ).unwrap();
@@ -115,6 +121,17 @@ const UpdateRoomType = () => {
                   value={facilities}
                   onChange={setFacilities}
                 />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Room Type Image</label>
+                {!imageFile && image && (
+                  <img src={image} alt="current" className="img-thumbnail d-block mb-1" style={{ maxHeight: "100px" }} />
+                )}
+                {imageFile && (
+                  <img src={URL.createObjectURL(imageFile)} alt="preview" className="img-thumbnail d-block mb-1" style={{ maxHeight: "100px" }} />
+                )}
+                <input type="file" className="form-control" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} />
+                <small className="text-muted">Leave empty to keep the current image.</small>
               </div>
               <div className="mb-3 text-center">
                 <button type="submit" className="btn btn-primary">

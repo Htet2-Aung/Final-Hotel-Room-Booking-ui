@@ -9,7 +9,6 @@ import RoomTable from "./components/tables/RoomTable";
 import UpdateRoom from "./components/Room/UpdateRoom";
 import PaymentShow from "./components/Payment/PaymentShow";
 import BookingShow from "./components/Booking/BookingShow";
-import BookingRoomTable from "./components/tables/BookingRoomTable";
 import Layout from "./components/ui/Layout";
 import Home from "./components/pages/Home";
 import Contact from "./components/pages/Contact";
@@ -22,6 +21,7 @@ import Facilities from "./components/RoomType/Facilities";
 import Payment from "./components/Payment/Payment";
 import Deposite from "./components/Payment/Deposite";
 import SelectedRoom from "./components/Room/SelectedRoom";
+import BookingConfirmed from "./components/Booking/BookingConfirmed";
 
 import UserPaymentInfo from "./components/Payment/UserPaymentInfo";
 import UserProfileForm from "./components/User/UserProfileForm";
@@ -32,6 +32,8 @@ import LoginForm from "./components/User/LoginForm";
 import AdminCards from "./components/pages/AdminCards";
 import BookingDetails from "./components/tables/BookingDetails";
 import ChartTable from "./components/tables/ChartTable";
+import ActivityLogTable from "./components/tables/ActivityLogTable";
+import "./components/tables/prettyTables.css";
 import SlideShow from "./components/RoomType/SlideShow";
 
 
@@ -63,10 +65,7 @@ function App() {
             {/* <Route path="/admin/bookingTable" element={<BookingTable/>}/> */}
             <Route path="/admin/paymentTable" element={<PaymentShow />} />
             <Route path="/admin/bookingTable" element={<BookingShow />} />
-            <Route
-              path="/admin/bookingRoomTable"
-              element={<BookingRoomTable />}
-            />
+            <Route path="/admin/activityLogTable" element={<ActivityLogTable />} />
           </Route>
         </Route>
         <Route path="/" element={<Layout />}>
@@ -93,6 +92,7 @@ function App() {
             {/* <Route path="/find-your/updateBooking/:bookingId" element={<UpdateBooking />} /> */}
             <Route path="/form" element={<BookingForm />} />
             <Route path="/paymentInfo" element={<UserPaymentInfo />} />
+            <Route path="/booking-confirmed" element={<BookingConfirmed />} />
           </Route>
         </Route>
       </Routes>

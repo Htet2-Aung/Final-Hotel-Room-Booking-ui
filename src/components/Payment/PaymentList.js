@@ -31,12 +31,15 @@ const Paymentlist = (props) => {
   if (paymentStatus === "succeeded") {
     content = paymentList.map((payment) => (
       <AdminPayment
+        key={payment.id}
         id={payment.id}
+        invoiceNo={payment.invoiceNo}
         holderName={payment.holderName}
         cardNo={payment.cardNo}
         total={payment.total}
-        cvc={payment.cvc}
         cardType={payment.cardType}
+        transactionId={payment.transactionId}
+        slipImage={payment.slipImage}
       />
     ));
   }

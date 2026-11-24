@@ -17,18 +17,16 @@ const UpdatePayment = () => {
   const[total,setTotal]=useState(payment?.total)
   const [holderName, setHoldername] = useState(payment?.holderName);
   const [cardNo, setCardnumber] = useState(payment?.cardNo);
-  const [cvc, setCvc] = useState(payment?.cvc);
   const [cardType, setCardtype] = useState(payment?.cardType);
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   const onIdChange =(e)=>setId(e.target.value);
   const onHolderNameChange = (e) => setHoldername(e.target.value);
   const onCardNumberChange = (e) => setCardnumber(e.target.value);
-  const onCVCChange = (e) => setCvc(e.target.value);
   const onCardTypeChange = (e) => setCardtype(e.target.value);
 
   const cansave =
-    [ id,holderName, cardNo, cvc, cardType].every(Boolean) &&
+    [ id,holderName, cardNo, cardType].every(Boolean) &&
     addRequestStatus === "idle";
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,7 +46,6 @@ const UpdatePayment = () => {
               total,
               holderName,
               cardNo,
-              cvc,
               cardType,
             },
           })
@@ -61,7 +58,6 @@ const UpdatePayment = () => {
       setId("");
       setHoldername("");
       setCardnumber("");
-      setCvc("");
       setCardtype("");
       navigate("/payment-table");
     }
@@ -97,18 +93,6 @@ const UpdatePayment = () => {
                     name="number"
                     value={cardNo}
                     onChange={onCardNumberChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label for="cvc" className="form-label">
-                    CVC
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="cvc"
-                    value={cvc}
-                    onChange={onCVCChange}
                   />
                 </div>
                 <div className="mb-3">

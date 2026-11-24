@@ -40,11 +40,16 @@ const UserProfileForm = () => {
   const [phone, setPhone] = useState(user.phone);
   const [password, setPassword] = useState(user.password);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [createdAt, setCreatedAt] = useState(user.createdAt);
   const [passwordError, setPasswordError] = useState({
     password: "",
     confirmPassword: "",
   });
+
+  // at least 8 chars, 1 lowercase, 1 uppercase, 1 number, 1 special character
+  const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
 
   const [updateRequestStatus, setUpdatRequestStatus] = useState("idle");
@@ -53,8 +58,14 @@ const UserProfileForm = () => {
   const onLastnameChange = (e) => setLastname(e.target.value);
   const onUsernameChange = (e) => setUsername(e.target.value);
   const onPhoneChange = (e) => setPhone(e.target.value);
-  const onPasswordChange = (e) => setPassword(e.target.value);
-  const onConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+    setPasswordError({ password: "", confirmPassword: "" });
+  };
+  const onConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setPasswordError({ password: "", confirmPassword: "" });
+  };
   const onCreatedAtChange = (e) => setCreatedAt(e.target.value);
   const canUpdate =
     [firstname, lastname, username, phone,password, createdAt].every(
@@ -81,6 +92,14 @@ const UserProfileForm = () => {
       try {
         console.log("If can update,...");
         setUpdatRequestStatus("pending");
+        if (!strongPasswordPattern.test(password)) {
+          setPasswordError({
+            password: "Password must be at least 8 characters and include uppercase, lowercase, number and special character.",
+            confirmPassword: "",
+          });
+          return;
+        }
+
         if (confirmPassword !== password) {
           setPasswordError({
             confirmPassword: "New Password and Repeat New password must be same!",
@@ -273,13 +292,31 @@ const UserProfileForm = () => {
 
                   <div class="form-group">
                     <label class="form-label">New password</label>
-                    <input type="password" class="form-control"  onChange={onPasswordChange}/>
+                    <div class="position-relative">
+                      <input type={showNewPassword ? "text" : "password"} class="form-control"  onChange={onPasswordChange}/>
+                      <i
+                        className={`fas ${showNewPassword ? "fa-eye-slash" : "fa-eye"} position-absolute`}
+                        style={{ right: "12px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#858796" }}
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                      ></i>
+                    </div>
+                    <small class="text-muted">At least 8 characters with uppercase, lowercase, number &amp; special character.</small>
                   </div>
 
                   <div class="form-group">
                     <label class="form-label">Repeat new password</label>
-                    <input type="password" class="form-control" value={confirmPassword} onChange={onConfirmPasswordChange} />
+                    <div class="position-relative">
+                      <input type={showConfirmPassword ? "text" : "password"} class="form-control" value={confirmPassword} onChange={onConfirmPasswordChange} />
+                      <i
+                        className={`fas ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"} position-absolute`}
+                        style={{ right: "12px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#858796" }}
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      ></i>
+                    </div>
                   </div>
+                  <span value={passwordError} className='text-danger'>
+              {passwordError.password}
+            </span>
                   <span value={passwordError} className='text-danger'>
               {passwordError.confirmPassword}
             </span>

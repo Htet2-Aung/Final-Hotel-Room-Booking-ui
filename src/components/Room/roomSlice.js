@@ -10,7 +10,9 @@ const GET_ROOMBY_BOOKINGID = "http://localhost:8181/api/bookingRoom/rooms/"
 
 export const addNewRoom = createAsyncThunk('room/addRoom', async (data) => {
     console.log("Create room in slice:"+data.roomTypeId)
-    const response = await axios.post(`${CREATE_ROOM}${data.roomTypeId}`, data.room)
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
+    const response = await axios.post(`${CREATE_ROOM}${data.roomTypeId}`, data.room, config)
     console.log("Create SLice: "+response.data)
     return response.data
 })
@@ -29,12 +31,16 @@ export const fetchAllRoom = createAsyncThunk('room/fetchRooms', async () => {
 
 export const updateRoom = createAsyncThunk('room/updateRoom', async(data) => {
     console.log("In roomupdate slice: "+data.roomTypeId)
-    const response = await axios.post(`${UPDATE_ROOM}${data.roomTypeId}`,data.room)
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
+    const response = await axios.post(`${UPDATE_ROOM}${data.roomTypeId}`,data.room,config)
     return response.data
 })
 
 export const deleteRoom = createAsyncThunk('room/deleteRoom', async(data) => {
-    await axios.delete(`${DELETE_ROOM}${data.id}`)
+    const token = data.token || localStorage.getItem('token')
+    const config = token ? { headers: { 'Authorization': token } } : undefined
+    await axios.delete(`${DELETE_ROOM}${data.id}`, config)
     const response = await axios.get(GET_ALL_ROOM)
     return response.data
 })
@@ -107,16 +113,26 @@ export const roomSlice = createSlice({
             })
             .addCase(fetchAllRoom.fulfilled, (state,action) => {
                 state.status = 'succeeded'
-                // state.rooms = action.payload
+                // preserve the user's current selections across refetches
+                const previouslySelectedIds = state.rooms
+                  .filter((room) => room.selected)
+                  .map((room) => room.id);
                 const rooms = action.payload;
-                const updatedRooms= rooms.map(room => {
+                const updatedRooms = rooms.map((room) => {
                   return {
                     ...room,
-                    selected : false,
-                  }
-                })
+                    selected: previouslySelectedIds.includes(room.id),
+                  };
+                });
                 console.log("fetchAllroom:"+updatedRooms)
                 state.rooms = updatedRooms
+                // keep the displayed search results in sync with the fresh data
+                if (state.filteredRooms.length > 0) {
+                  const filteredIds = state.filteredRooms.map((room) => room.id);
+                  state.filteredRooms = updatedRooms.filter((room) =>
+                    filteredIds.includes(room.id)
+                  );
+                }
             })
             .addCase(fetchAllRoom.rejected, (state,action) => {
                 state.status = 'failed'
@@ -151,10 +167,10 @@ export const getFilteredDate = (state) => state.rooms.filteredDate
 export const getSearchBar = (state) => state.rooms.isSearch
 // export const getBookedRooms = (state) => state.rooms.bookedRooms
 export const selectRoomById = (state, roomId) => state.rooms.rooms.find(room => room.id === roomId)
-export const selectRoomBYType = (state, roomTId) => state.rooms.rooms.filter(room => room.roomType.id === (roomTId))
+export const selectRoomBYType = (state, roomTId) => state.rooms.rooms.filter(room => room.roomType?.id === (roomTId))
 
 
-export const search = (state,searchData) => state.rooms.rooms.filter(room => room.bookingRoom.checkIn !== searchData.checkIn && room.bookingRoom.checkOut !== searchData.checkOut && room.roomType.name === searchData.name )
+export const search = (state,searchData) => state.rooms.rooms.filter(room => room.bookingRoom?.checkIn !== searchData.checkIn && room.bookingRoom?.checkOut !== searchData.checkOut && room.roomType?.name === searchData.name )
 
 // export const search = (state,roomType) => state.rooms.rooms.filter(room => room.roomType.name === roomType)
 

@@ -6,7 +6,7 @@ const GET_ALL_Booking = "http://localhost:8181/api/booking/all"
 const GET_BOOKING_BYUSER = "http://localhost:8181/api/booking/allbooking"
 const ADD_Booking = "http://localhost:8181/api/booking/create"
 const UPDATE_Booking = "http://localhost:8181/api/booking/update/"
-const DELETE_Booking = "http://localhost:8181/api/booking/delete/"
+const DELETE_Booking = "http://localhost:8181/api/booking/"
 
 export const fetchBooking = createAsyncThunk('booking/fetchBooking',async() =>{
     const response = await axios.get(GET_ALL_Booking)
@@ -40,7 +40,7 @@ export const updateBooking = createAsyncThunk('booking/updateBooking', async(dat
     console.log("Update Booking: "+data.booking)
     console.log("In the Booking Update Slice:"+ data.token)
     console.log("In the Booking Update Slice:"+ data.bookingId)
-    const response = await axios.post(`${UPDATE_Booking}${data.bookingId}`,{
+    const response = await axios.post(`${UPDATE_Booking}${data.bookingId}`,data.booking,{
         headers:{
             
             'Authorization':data.token,
@@ -51,8 +51,8 @@ export const updateBooking = createAsyncThunk('booking/updateBooking', async(dat
 
 
 export const deleteBooking = createAsyncThunk('booking/deleteBooking', async(data) => {
-    console.log("DELETE:"+data.id)
-    await axios.delete(`${DELETE_Booking}${data.id}`)
+    const config = data.token ? { headers: { 'Authorization': data.token } } : undefined
+    await axios.delete(`${DELETE_Booking}${data.id}`, config)
     const response = await axios.get(GET_ALL_Booking)
     return response.data
 })

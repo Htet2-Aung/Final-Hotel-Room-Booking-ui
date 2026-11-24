@@ -5,27 +5,28 @@ import { useNavigate } from "react-router-dom";
 
 import { fetchRoomType, getAllRoomType } from "../RoomType/roomTypeSlice";
 import ReactQuill from "react-quill";
+import { uploadImage } from "../../uploadImage";
 
 const AddRoom = () => {
 
 
   const [description, setDescription] = useState("");
-  const [image1, setImage1] = useState("");
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
+  const [image1File, setImage1File] = useState(null);
+  const [image2File, setImage2File] = useState(null);
+  const [image3File, setImage3File] = useState(null);
   // const [totalRoom, setTotalRoom] = useState("");
   const [roomTypeId , setRoomTypeId] = useState("")
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   // const onDescriptionChange = (e) => setDescription(e.target.value);
 
-  const onImage1Change = (e) => setImage1(e.target.value);
-  const onImage2Change = (e) => setImage2(e.target.value);
-  const onImage3Change = (e) => setImage3(e.target.value);
+  const onImage1Change = (e) => setImage1File(e.target.files[0]);
+  const onImage2Change = (e) => setImage2File(e.target.files[0]);
+  const onImage3Change = (e) => setImage3File(e.target.files[0]);
   // const ontotalRoomChange = (e) => setTotalRoom(e.target.value);
   const onRoomTypeNameChange = (e) => setRoomTypeId(e.target.value)
   const canSave =
-    [description, image1, image2, image3].every(Boolean) &&
+    [description, image1File, image2File, image3File].every(Boolean) &&
     addRequestStatus === "idle";
 
     const dispatch = useDispatch()
@@ -40,7 +41,7 @@ const AddRoom = () => {
 
   console.log("Can save: " + canSave);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
       if(canSave){
 
@@ -48,13 +49,19 @@ const AddRoom = () => {
 
           setAddRequestStatus('pending')
 
+        const [image1Url, image2Url, image3Url] = await Promise.all([
+          uploadImage(image1File),
+          uploadImage(image2File),
+          uploadImage(image3File),
+        ]);
+
        dispatch(
         addNewRoom({
           room: {
             description,
-            image1,
-            image2,
-            image3,
+            image1: image1Url,
+            image2: image2Url,
+            image3: image3Url,
             // totalRoom
           },roomTypeId
         })
@@ -67,9 +74,9 @@ const AddRoom = () => {
       }
        
       setDescription('')
-      setImage1('')
-      setImage2('')
-      setImage3('')
+      setImage1File(null)
+      setImage2File(null)
+      setImage3File(null)
       navigate(`/admin/roomTable`)
     }
 
@@ -104,7 +111,8 @@ const AddRoom = () => {
                 <label for="image1" className="form-label">
                   Room's Bed
                 </label>
-                <input type="text" className="form-control" value={image1} onChange={onImage1Change}  placeholder="Image Url"/>
+                <input type="file" className="form-control" accept="image/*" onChange={onImage1Change} required />
+                {image1File && <img src={URL.createObjectURL(image1File)} alt="preview" className="img-thumbnail mt-2" style={{ maxHeight: "100px" }} />}
              
               </div>
             
@@ -115,7 +123,8 @@ const AddRoom = () => {
                 <label for="image2" className="form-label">
                   Room's Bath
                 </label>
-                <input type="text" className="form-control" value={image2} onChange={onImage2Change} placeholder="Image Url" />
+                <input type="file" className="form-control" accept="image/*" onChange={onImage2Change} required />
+                {image2File && <img src={URL.createObjectURL(image2File)} alt="preview" className="img-thumbnail mt-2" style={{ maxHeight: "100px" }} />}
               
               </div>
               <div className="col-md-6">
@@ -123,7 +132,8 @@ const AddRoom = () => {
               <label for="image3"  className="form-label">
                   Room's Toilet
                 </label>
-                <input type="text" className="form-control" value={image3} onChange={onImage3Change} placeholder="Image Url" />
+                <input type="file" className="form-control" accept="image/*" onChange={onImage3Change} required />
+                {image3File && <img src={URL.createObjectURL(image3File)} alt="preview" className="img-thumbnail mt-2" style={{ maxHeight: "100px" }} />}
               </div>
               {/* <div>
               <label for="totalRoom"  className="form-label">

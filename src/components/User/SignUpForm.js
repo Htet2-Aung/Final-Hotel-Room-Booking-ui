@@ -15,18 +15,29 @@ const SignUpForm = (props) => {
     const [phone,setPhone] = useState ('')
     const [password,setPassword] = useState ('')
     const [confirmPassword,setConfirmPassword] = useState ('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [registerRequestStatus,setRegisterRequestStatus] = useState('idle')
     const [passwordError, setPasswordError] = useState({
       password: "",
       confirmPassword: "",
     });
 
+    // at least 8 chars, 1 lowercase, 1 uppercase, 1 number, 1 special character
+    const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
     const onFirstnameChange = (e) => setFirstname(e.target.value)
     const onLastnameChange = (e) => setLastname(e.target.value)
     const onUsernameChange = (e) => setUsername(e.target.value)
     const onPhoneChange = (e) => setPhone(e.target.value)
-    const onPasswordChange = (e) => setPassword(e.target.value)
-    const onConfirmPasswordChange = (e) => setConfirmPassword(e.target.value)
+    const onPasswordChange = (e) => {
+      setPassword(e.target.value)
+      setPasswordError({ password: "", confirmPassword: "" })
+    }
+    const onConfirmPasswordChange = (e) => {
+      setConfirmPassword(e.target.value)
+      setPasswordError({ password: "", confirmPassword: "" })
+    }
 
     const canCreate = [firstname,lastname,username,phone,password,confirmPassword].every(Boolean) && registerRequestStatus === 'idle'
     const dispatch = useDispatch()
@@ -37,6 +48,14 @@ const SignUpForm = (props) => {
       e.preventDefault()
 
       if(canCreate){
+        if (!strongPasswordPattern.test(password)) {
+          setPasswordError({
+            password: "Password must be at least 8 characters and include uppercase, lowercase, number and special character.",
+            confirmPassword: "",
+          });
+          return;
+        }
+
         if (confirmPassword !== password) {
           setPasswordError({
             confirmPassword: "Password and confirm password must be same!",
@@ -121,12 +140,18 @@ const SignUpForm = (props) => {
     </label> 
         
     <label>
-        <input required id ="password"  type="password" className={classes.input} onChange={onPasswordChange} value={password}/>
+        <input required id ="password"  type={showPassword ? "text" : "password"} className={classes.input} onChange={onPasswordChange} value={password}/>
         <span>Password</span>
+        <i className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} style={{position: "absolute", right: "12px", top: "15px", cursor: "pointer", color: "grey"}} onClick={() => setShowPassword(!showPassword)}></i>
     </label>
+    <small className={classes.hint}>At least 8 characters with uppercase, lowercase, number &amp; special character.</small>
+    <span value={passwordError} className={classes.errormessage}>
+              {passwordError.password}
+            </span>
     <label>
-        <input required id ="confirmPassword"  type="password" className={classes.input} onChange={onConfirmPasswordChange} value={confirmPassword}/>
+        <input required id ="confirmPassword"  type={showConfirmPassword ? "text" : "password"} className={classes.input} onChange={onConfirmPasswordChange} value={confirmPassword}/>
         <span>Confirm password</span>
+        <i className={`fas ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`} style={{position: "absolute", right: "12px", top: "15px", cursor: "pointer", color: "grey"}} onClick={() => setShowConfirmPassword(!showConfirmPassword)}></i>
     </label>
     <span value={passwordError} className={classes.errormessage}>
               {passwordError.confirmPassword}

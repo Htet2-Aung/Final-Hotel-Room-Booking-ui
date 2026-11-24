@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
-import { actions } from "react-table"
-
 
 
 const CREATE_BOOKING_ROOM = "http://localhost:8181/api/booking/create/"
@@ -23,27 +21,8 @@ export const fetchBookingRoomByBookingId = createAsyncThunk('bookingRoom/fetchBo
 
 
 export const addBookingRoom = createAsyncThunk('bookingRoom/addBookingRoom', async(data) => {
-    console.log("Booking room slice:"+data)
-    console.log("add bookroomslice:"+data.selectedRooms.length+".....bk room"+data.bookingRoom)
-    let content;
-    let roomId;
-   
     const bkRoom = data.bookingRoom
     const selectedRooms = data.selectedRooms
-    content = selectedRooms.map((room) =>
-       roomId = room.id,
-       
-      )
-      console.log("Content: "+content)
-
-      console.log("Length:"+selectedRooms.length)
-    
-    //   for(i;i<selectedRooms.length;i++){
-
-    //     response = await axios.post(`${CREATE_BOOKING_ROOM}${data.bookingId}/${selectedRooms[i].id}`,bkRoom)
-    //     console.log("Response;"+ i+"times"+response.data)
-    //     return response.data
-    //   }
 
     const responses = [];
 
@@ -62,20 +41,12 @@ export const addBookingRoom = createAsyncThunk('bookingRoom/addBookingRoom', asy
   }
 
   return responses;
-     
-      console.log("Room Id:"+roomId)
-    // const bookingRoom = {bkRoom , selectedRooms}
-    // console.log("BookingRoom in slice:"+bookingRoom)
-    
-    
-   
 })
 
 
 export const deleteBookingRoom = createAsyncThunk('bookingRoom/deleteBookingRoom', async(data) => {
     await axios.delete(`${DELETE_BOOKING_ROOM}${data.id}`)
-    const response = await axios.delete(DELETE_BOOKING_ROOM)
-    return response.data
+    return data.id
 })
 
 const initialState = {
@@ -86,7 +57,7 @@ const initialState = {
     custom : false,
     isChart : true,
     bookedRoom : [],
-   
+
 }
 
 export const bookingRoomSlice = createSlice({
@@ -105,7 +76,7 @@ export const bookingRoomSlice = createSlice({
         setBookedRoom : (state,action) => {
             state.bookedRoom = action.payload
         }
-       
+
     },
     extraReducers(builder){
         builder
@@ -124,8 +95,7 @@ export const bookingRoomSlice = createSlice({
                 state.error = action.error.message
             })
             .addCase(deleteBookingRoom.fulfilled, (state,action) => {
-                state.status = 'succeeded'
-                state.bookingRooms = action.payload
+                state.bookingRooms = state.bookingRooms.filter(bkRoom => bkRoom.id !== action.payload)
             })
            .addCase(fetchBookingRoomByBookingId.fulfilled, (state,action) => {
                 state.status = 'succeeded'
@@ -146,9 +116,3 @@ export const getCard = (state) => state.bookingRooms.isCard
 export const getChart = (state) => state.bookingRooms.isChart
 export const { setCard, setCustom,setBookedRoom, setChart } = bookingRoomSlice.actions
 export default bookingRoomSlice.reducer
-  
- 
-
-    
-
-

@@ -1,12 +1,5 @@
-import React, { useEffect } from 'react'
-//jQuery libraries
- 
-import 'jquery/dist/jquery.min.js';
- 
-//Datatable Modules
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
+import React, { useEffect, useLayoutEffect } from 'react'
+import { initPrettyDataTable } from './prettyDataTable';
 import { fetchRoomType} from '../RoomType/roomTypeSlice';
 import { useDispatch } from 'react-redux';
 import RoomTypeList from '../RoomType/RoomTypeList';
@@ -22,25 +15,17 @@ const RoomTypeTable = () => {
   },[dispatch]
   )
 
-   //initialize datatable
-   $(document).ready(function () {
-    setTimeout(function(){
-    $('#example').DataTable();
-     } ,500);
-});
+   //initialize datatable (cleanup runs before unmount)
+   useLayoutEffect(() => initPrettyDataTable("#example", 500, { title: "Room Type List", subtitle: "Room categories with price and facilities" }), []);
 
 
 const card = `card ${classes.card2}`
   
   return (
     <div className={card}>
-    <div className=" text-center">
-        <h3>Room Type List</h3>
-    </div>
-     
-    <div className="container">
+    <div className="container-fluid px-0">
          
-        <table id="example" className="table table-hover table-bordered">
+        <table id="example" className="table table-hover table-striped table-bordered pretty-table">
         <thead>
           <tr>
             <th>No</th>

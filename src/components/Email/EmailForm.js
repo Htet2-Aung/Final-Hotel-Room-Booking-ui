@@ -22,8 +22,24 @@ const EmailForm = (props) => {
   console.log("Booking in email component:"+booking.username)
     //const [id,setId] = useState(user?.id) 
     const [to,setTo] = useState(booking.username)
-    const [subject,setSubject] = useState('Confirmation')
-    const [text,setText] = useState('We are pleased to inform you that your booking is confirmed!')
+    const [subject,setSubject] = useState(`Booking Confirmed - Relax Oasis Hotel (Ref BK-${booking.id})`)
+    const [text,setText] = useState(
+`Dear ${booking.guestName},
+
+Thank you for choosing Relax Oasis Hotel. Your booking has been confirmed.
+
+Booking Reference : BK-${booking.id}
+Check-in Date     : ${booking.checkIn}
+Check-out Date    : ${booking.checkOut}
+Number of Rooms   : ${booking.numOfRoom}
+Guests            : ${booking.totalAdults} adult(s), ${booking.totalChildren} child(ren)
+
+Please present this email or your booking reference at the front desk when you arrive.
+If you have any questions about your stay, just reply to this email.
+
+Warm regards,
+Relax Oasis Hotel
+relax.oasis.myanmar@gmail.com`)
     const token =useSelector(getToken);
     const [emailRequestStatus,setEmailRequestStatus] = useState('idle')
 
@@ -85,7 +101,7 @@ const EmailForm = (props) => {
       {/* <label for="actual-btn" className={classes.file} > Attachment<span className={classes.fileChoose}>No file chosen</span></label> */}
       {/* <input type="file" className={classes.file} ></input> */}
       <label className="form-label">Text:</label>
-      <textarea className="form-control" rows={3} placeholder="Enter message" onChange={onTextChange} value={text}/>
+      <textarea className="form-control" rows={12} placeholder="Enter message" onChange={onTextChange} value={text}/>
       <div className="row my-2">
       <div className="col-md-2"></div>
         <div className="col-md-4 pt-2">

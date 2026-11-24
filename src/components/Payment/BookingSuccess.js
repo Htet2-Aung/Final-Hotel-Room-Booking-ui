@@ -15,7 +15,7 @@ const BookingSuccess = () => {
         <Link to="/find-your" style={{color: "#29bfc2"}}>clickhere</Link>       
     </div>
     
-    <Link className="btn btn mt-5" to="/"><i className='fas fa-home ' style={{color: "#29bfc2"}}></i>GO TO Home
+    <Link className="btn btn-theme text-light mt-5" to="/booking-confirmed"><i className='fas fa-arrow-right me-1'></i>Continue
      </Link>
     
      </div>

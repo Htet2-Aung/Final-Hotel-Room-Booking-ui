@@ -132,7 +132,7 @@ if (isLoading) {
     rooms.map((room)=>
     <div className='col-md-4'>
     <img src={room.image1} alt={room.name} className='w-100' />
-    <div><small>{String(room.roomType.name)}</small></div>
+    <div><small>{String(room.roomType?.name ?? '-')}</small></div>
     <p></p>
     </div>
     )
@@ -142,7 +142,7 @@ if (isLoading) {
 </div>
 <hr style={{border: "1px solid #29bfc2"}}/>
 <section>
-  <table className='table table-border table-striped'>
+  <table className='table table-border table-striped pretty-table'>
   <thead>
     <tr>
       <th>Booking Information</th>
@@ -207,7 +207,7 @@ if (isLoading) {
     <tr>
         <td colspan="2"></td>
         <td>Total</td>
-        <td>{booking.payment.total} MMK</td>
+        <td>{booking.payment ? `${booking.payment.total} MMK` : "Not paid yet"}</td>
       </tr>
     </tfoot>
   </table>

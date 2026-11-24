@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import parse from "html-react-parser";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteRoomType } from "./roomTypeSlice";
-import { Link } from "react-router-dom";
 import ConfirmModal from "../ui/ConfirmModal";
+import ActionIcon from "../ui/ActionIcon";
 import { getRoomError } from "../Room/roomSlice";
 
 const AdminRoomType = (props) => {
@@ -38,16 +38,20 @@ const AdminRoomType = (props) => {
       <td>{props.price}</td>
       <td>{parse(props.facilities)}</td>
       <td className="px-3">
-        <Link to={`/admin/roomtypeTable/updateroomType/${props.id}`}>
-          
-        <i className="far fa-edit fa-1x mx-4"  style={{color: "#29bfc2"}}></i>
-      </Link>
-      <Link onClick={deleteHandler}>
-     
-        <i className="far fa-trash-alt fa-1x text-danger"></i>
-        </Link>
+        <ActionIcon
+          type="edit"
+          to={`/admin/roomtypeTable/updateroomType/${props.id}`}
+          title="Edit room type"
+        />
+        <ActionIcon type="delete" onClick={deleteHandler} title="Delete room type" />
         {isDeleteModal && (
-          <ConfirmModal onCancel={closeHandler} onConfirm={confirmHandler} />
+          <ConfirmModal
+            title="Delete Room Type"
+            message={`Are you sure you want to delete room type "${props.name}"? This cannot be undone.`}
+            confirmText="Delete"
+            onCancel={closeHandler}
+            onConfirm={confirmHandler}
+          />
         )}
        
       </td>

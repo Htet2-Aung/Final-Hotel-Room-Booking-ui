@@ -1,23 +1,15 @@
-import React from 'react'
-import $ from "jquery"
+import React, { useLayoutEffect } from 'react'
+import { initPrettyDataTable } from './prettyDataTable'
 
 const BookingTable = () => {
 
-    $(document).ready(function(){
-        setTimeout(function(){
-            $('#example').DataTable()
-        },500)
-    })
+    useLayoutEffect(() => initPrettyDataTable("#example", 500, { title: "Booking List", subtitle: "Guest bookings with contact details and requests" }), [])
 
   return (
     <div className="MainDiv">
-    <div className=" text-center">
-        <h3>Booking List</h3>
-    </div>
-     
-    <div className="container">
+    <div className="container-fluid px-0">
          
-        <table id="example" className="table table-hover table-bordered">
+        <table id="example" className="table table-hover table-striped table-bordered pretty-table">
         <thead>
           <tr>
             <th>No</th>

@@ -1,23 +1,17 @@
-import $ from 'jquery'
+import React, { useLayoutEffect } from 'react'
+import { initPrettyDataTable } from './prettyDataTable'
+import BookingRoomList from '../BookingRoom/BookingRoomList'
 
 
 const BookingRoomTable = () => {
 
-    $(document).ready(function(){
-        setTimeout(function(){
-            $('#example').DataTable()
-        },1000)
-    })
+    useLayoutEffect(() => initPrettyDataTable("#example", 500, { title: "Booking Room List", subtitle: "Stay dates and status for each booked room" }), [])
 
   return (
     <div className="MainDiv">
-    <div className=" text-center">
-        <h3>Booking Room List</h3>
-    </div>
-     
-    <div className="container">
+    <div className="container-fluid px-0">
          
-        <table id="example" className="table table-hover table-bordered">
+        <table id="example" className="table table-hover table-striped table-bordered pretty-table">
         <thead>
           <tr>
             <th>No</th>
@@ -30,8 +24,7 @@ const BookingRoomTable = () => {
           </tr>
         </thead>
         <tbody>
-     
-           
+          <BookingRoomList />
         </tbody>
       </table>
          
