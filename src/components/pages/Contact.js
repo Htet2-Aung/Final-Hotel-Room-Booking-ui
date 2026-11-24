@@ -1,11 +1,9 @@
-import { Link } from "react-router-dom";
 import classes from "./Contact.module.css";
 
 const Contact = () => {
   const cardbody1 = `col-md-4 mt-5  card  ${classes.card2}`;
   const icons = `row mt-5  ${classes.icons}` 
   const text = `row mt-3 ${classes.text}`
-  const messenger = `fab fa-2x fa-facebook-messenger ${classes.msgeffect}`
   // const textIcon = `col-sm-3 ${classes.textIcon}`
   return (
     <section className={classes.contact}>
@@ -29,19 +27,14 @@ const Contact = () => {
          <div className="col-sm-1"></div>
         <div className="col-sm-11"> 
            <div className="row"> 
-            <div className='col-sm-3'>
+            <div className='col-sm-4'>
             <i className='fas fa-map-marker-alt text-danger fa-2x'></i>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4">
               <i className='fas fa-2x fa-phone text-primary '></i>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4">
             <i className='fas fa-envelope fa-2x text-danger'></i>
-            </div>
-            <div className="col-sm-3">
-              <Link to="https://www.messenger.com/login.php?next=https%3A%2F%2Fwww.messenger.com%2Ft%2F121402764575091%2F%3Fmessaging_source%3Dsource%253Apages%253Amessage_shortlink%26source_id%3D1441792%26recurring_notification%3D0">
-                <i className={messenger}></i></Link>
-              
             </div>
           </div> 
          </div>
@@ -52,7 +45,7 @@ const Contact = () => {
       <div className="col-sm-1"></div>
         <div className="col-sm-11"> 
            <div className="row"> 
-            <div className="col-sm-3">
+            <div className="col-sm-4">
               <div className={classes.location}>
               <h6 className="fw-bold">
            Relaxation Oasis Hotel
@@ -62,7 +55,7 @@ const Contact = () => {
             
              
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4">
               <div className={classes.phone}>
            
             <h6>
@@ -71,18 +64,10 @@ const Contact = () => {
               </div>
             
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4">
               <div className={classes.mail}>
               <h6 className="fw-bold">
             relax.oasis@gmail.com
-            </h6>
-              </div>
-           
-            </div>
-            <div className="col-sm-3">
-              <div className={classes.messenger}>
-              <h6 className="fw-bold">
-           Messenger
             </h6>
               </div>
            

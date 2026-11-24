@@ -14,6 +14,10 @@ const SearchBar = () => {
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
 
+  // Today's date (YYYY-MM-DD) - blocks past dates in the date pickers
+  const now = new Date()
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+
   const onRoomTypeChange = e => setRoomType(e.target.value)
   const onCheckIn = e => setCheckIn(e.target.value)
   const onCheckOut = e => setCheckOut(e.target.value)
@@ -90,6 +94,7 @@ const SearchBar = () => {
           <input  type="date" className="form-control clickable input-md" id="DtChkIn" placeholder="&#xf133;  Check-In"
             value={checkIn}
             onChange = {onCheckIn}
+            min={today}
             required
           />
         </div>
@@ -98,6 +103,7 @@ const SearchBar = () => {
           <input type="date" className="form-control clickable input-md" id="DtChkOut" placeholder="&#xf133;  Check-Out"
              value={checkOut}
             onChange = {onCheckOut}
+            min={checkIn || today}
             required
           />
         </div>
