@@ -25,7 +25,8 @@ const BookingDetails = (props) => {
       const booking = bookingData.booking;
       const rooms = bookingData.rooms;
   
-      setRooms(rooms); // Update the rooms state directly
+      // booking-room records can reference a deleted room -> filter out null entries
+      setRooms(Array.isArray(rooms) ? rooms.filter(Boolean) : []); // Update the rooms state directly
   
       return { booking }; // Only return the booking object
     } catch (error) {
@@ -44,25 +45,31 @@ const BookingDetails = (props) => {
 
 useEffect(() => {
   
-  fetchBookingWithRooms().then((data) => {
-    setBooking(data.booking);
-    setIsLoading(false); // Set isLoading to false when data is fetched
-  });
+  fetchBookingWithRooms()
+    .then((data) => {
+      if (data && data.booking) {
+        setBooking(data.booking);
+      }
+      setIsLoading(false); // Set isLoading to false when data is fetched
+    })
+    .catch((error) => {
+      console.error('Error fetching booking with rooms:', error);
+      setIsLoading(false);
+    });
 }, []);
 
 let noOFRoom = 0;
 let roomTypePrice = 0;
 let roomTypeRate = [];
-(rooms.map((room) => {
+rooms.forEach((room) => {
+  if (!room) return; // skip null room references
   noOFRoom++;
-  roomTypePrice += Number(room?.roomType?.price)
-  roomTypeRate.push(Number(room?.roomType?.price)) 
-  
-}
+  const price = Number(room?.roomType?.price ?? 0);
+  roomTypePrice += price;
+  roomTypeRate.push(price);
+})
 
-))
-
-let ratePerRoom= null;
+let ratePerRoom = 0;
 for(let i = 0; i<roomTypeRate.length; i++){
   ratePerRoom += roomTypeRate[i];
   if(i < roomTypeRate.length - 1)
@@ -99,6 +106,10 @@ if (isLoading) {
   return <div>Loading...</div>;
 }
 
+if (!booking) {
+  return <div>Booking details could not be loaded.</div>;
+}
+
 
 
   return (
@@ -129,10 +140,10 @@ if (isLoading) {
 <div className='col-md-8'>
 <div className='row'>
 {
-    rooms.map((room)=>
-    <div className='col-md-4'>
-    <img src={room.image1} alt={room.name} className='w-100' />
-    <div><small>{String(room.roomType?.name ?? '-')}</small></div>
+    rooms.map((room, index)=>
+    <div className='col-md-4' key={room?.id ?? index}>
+    <img src={room?.image1 || oasis} alt={room?.name || 'Room'} className='w-100' />
+    <div><small>{String(room?.roomType?.name ?? '-')}</small></div>
     <p></p>
     </div>
     )
